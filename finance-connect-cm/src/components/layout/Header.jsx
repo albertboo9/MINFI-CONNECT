@@ -6,9 +6,9 @@ import { clsx } from 'clsx';
 
 const navItems = [
     { label: 'ACCUEIL', path: '/', icon: Home },
-    { label: "POINTS D'INFORMATIONS", path: '/info-point', icon: Video },
-    { label: 'BOÎTE À OUTILS', path: '/outils', icon: GraduationCap },
-    { label: 'SERVICES', path: '/e-services', icon: ShieldQuestion },
+    { label: "BOÎTE À OUTILS", path: '/info-point', icon: Video },
+    { label: "POINTS D'INFORMATIONS", path: '/outils', icon: GraduationCap },
+    { label: "SERVICES", path: '/e-services', icon: ShieldQuestion },
 ];
 
 export default function Header() {
