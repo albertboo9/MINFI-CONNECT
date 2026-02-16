@@ -18,7 +18,7 @@ export default function AgentHeader({ pageTitle }) {
                         <img src="/MINFI_LOGO.png" className="h-10 w-auto group-hover:scale-110 transition-transform" alt="MINFI" />
                         <div className="hidden md:block">
                             <h2 className="text-white font-heading font-black text-sm tracking-tight leading-none italic uppercase">
-                                FINANCE<span className="text-minfi-emerald">CONNECT</span>
+                                MINFI<span className="text-minfi-emerald">CONNECT</span>
                             </h2>
                             <p className="text-[8px] font-black text-white/30 tracking-[0.3em] uppercase mt-1">Plateforme Agent</p>
                         </div>

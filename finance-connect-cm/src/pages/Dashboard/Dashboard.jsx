@@ -38,7 +38,7 @@ export default function Dashboard() {
 
                     <div className="glass-card p-6 border-white/5 bg-minfi-gold/5 space-y-4">
                         <h4 className="text-[10px] font-black text-minfi-gold uppercase tracking-widest">Alerte Prochain Examen</h4>
-                        <p className="text-xs text-white/40 leading-relaxed font-medium">Certification Fiscalité II prévue pour le <span className="text-white">24 Mars 2024</span>.</p>
+                        <p className="text-xs text-white/40 leading-relaxed font-medium">Certification Fiscalité II prévue pour le <span className="text-white">24 Mars 2026</span>.</p>
                         <button className="w-full py-3 bg-minfi-gold text-white rounded-xl text-[9px] font-black tracking-widest uppercase shadow-xl hover:scale-105 transition-all">Consulter</button>
                     </div>
                 </aside>

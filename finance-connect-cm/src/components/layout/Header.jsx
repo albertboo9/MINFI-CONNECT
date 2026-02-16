@@ -6,8 +6,8 @@ import { clsx } from 'clsx';
 
 const navItems = [
     { label: 'ACCUEIL', path: '/', icon: Home },
-    { label: "POINT D'INFORMATION", path: '/info-point', icon: Video },
-    { label: 'OUTILS & DOCS', path: '/outils', icon: GraduationCap },
+    { label: "POINTS D'INFORMATIONS", path: '/info-point', icon: Video },
+    { label: 'BOÎTE À OUTILS', path: '/outils', icon: GraduationCap },
     { label: 'SERVICES', path: '/e-services', icon: ShieldQuestion },
 ];
 
