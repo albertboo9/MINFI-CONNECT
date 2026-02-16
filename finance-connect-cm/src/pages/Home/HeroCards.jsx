@@ -29,20 +29,20 @@ const heroCards = [
         title: "RÉFORMES",
         desc: "Lois de Finances & Législation.",
         color: "gold",
-        path: "/institution"
+        path: "/outils"
     },
 ];
 
 export default function HeroCards() {
     return (
-        <div style={{gap:"260px", transform:"translateX(-100px)"}} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-40 mt-8 w-full max-w-6xl px-6 relative z-20">
+        <div style={{ gap: "260px", transform: "translateX(-100px)" }} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-40 mt-8 w-full max-w-6xl px-6 relative z-20">
             {heroCards.map((card, index) => (
                 <Link key={index} to={card.path}>
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 1 + index * 0.1 }}
-                        style={{width:"250px"}}
+                        style={{ width: "250px" }}
                         whileHover={{ y: -5, borderColor: `rgba(var(--minfi-${card.color}-rgb), 0.3)` }}
                         className="glass-card  px-6 py-4 flex items-center space-x-4 group border-white/5 hover:bg-white/[0.08] transition-all duration-500 cursor-pointer h-full"
                     >

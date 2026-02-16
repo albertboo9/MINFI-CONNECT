@@ -7,30 +7,30 @@ import HeroCards from '../../pages/Home/HeroCards';
 const bubbles = [
     {
         id: 'informer',
-        title: 'INFORMER',
-        subtitle: 'Lois & Réformes',
+        title: 'OUTILS',
+        subtitle: 'Lois & Docs',
         icon: LayoutGrid,
         color: 'emerald',
         angle: 0,
-        path: '/institution'
+        path: '/outils'
     },
     {
         id: 'former',
-        title: 'FORMER',
-        subtitle: 'Académie Campus',
+        title: 'AGENT',
+        subtitle: 'Espace Privé',
         icon: GraduationCap,
         color: 'emerald',
         angle: 120,
-        path: '/academie'
+        path: '/login'
     },
     {
         id: 'sensibiliser',
-        title: 'SENSIBILISER',
-        subtitle: 'MINFI TV & Blog',
+        title: 'INFOS',
+        subtitle: 'Point Citoyen',
         icon: Video,
         color: 'gold',
         angle: 240,
-        path: '/mediatheque'
+        path: '/info-point'
     },
 ];
 
@@ -73,44 +73,36 @@ export default function OrbitalSystem() {
 
             {/* Orbiting Bubbles */}
             <div className="absolute w-full h-full animate-orbital-rotate">
-                {bubbles.map((bubble) => {
-                    const isExternal = bubble.id === 'former';
-                    const linkProps = isExternal
-                        ? { href: 'https://campus.studieslearning.com/', target: '_blank', rel: 'noreferrer' }
-                        : { to: bubble.path };
-                    const Component = isExternal ? 'a' : Link;
-
-                    return (
-                        <div
-                            key={bubble.id}
-                            className="absolute"
-                            style={{
-                                top: '50%',
-                                left: '50%',
-                                transform: `rotate(${bubble.angle}deg) translateX(250px) rotate(-${bubble.angle}deg)`,
-                            }}
+                {bubbles.map((bubble) => (
+                    <div
+                        key={bubble.id}
+                        className="absolute"
+                        style={{
+                            top: '50%',
+                            left: '50%',
+                            transform: `rotate(${bubble.angle}deg) translateX(250px) rotate(-${bubble.angle}deg)`,
+                        }}
+                    >
+                        <motion.div
+                            whileHover={{ scale: 1.1, y: -5 }}
+                            className="relative -translate-x-1/2 -translate-y-1/2"
                         >
-                            <motion.div
-                                whileHover={{ scale: 1.1, y: -5 }}
-                                className="relative -translate-x-1/2 -translate-y-1/2"
-                            >
-                                <Component {...linkProps}>
-                                    {/* Capsule Glass Effect */}
-                                    <div className="w-28 h-44 capsule-glass group cursor-pointer transition-all duration-500 hover:border-minfi-emerald/50">
-                                        <div className={`p-3 rounded-xl bg-minfi-${bubble.color}/20 text-minfi-${bubble.color} mb-3 group-hover:scale-110 transition-transform`}>
-                                            <bubble.icon size={24} />
-                                        </div>
-                                        <span className="text-[10px] font-bold tracking-widest text-white/40 mb-1 group-hover:text-white transition-colors">{bubble.title}</span>
-                                        <span className="text-[8px] font-medium text-white/20 text-center uppercase tracking-tighter leading-none">{bubble.subtitle}</span>
-
-                                        {/* Decorative particles */}
-                                        <div className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-minfi-gold animate-pulse shadow-[0_0_10px_rgba(245,158,11,0.5)]" />
+                            <Link to={bubble.path}>
+                                {/* Capsule Glass Effect */}
+                                <div className="w-28 h-44 capsule-glass group cursor-pointer transition-all duration-500 hover:border-minfi-emerald/50">
+                                    <div className={`p-3 rounded-xl bg-minfi-${bubble.color}/20 text-minfi-${bubble.color} mb-3 group-hover:scale-110 transition-transform`}>
+                                        <bubble.icon size={24} />
                                     </div>
-                                </Component>
-                            </motion.div>
-                        </div>
-                    );
-                })}
+                                    <span className="text-[10px] font-bold tracking-widest text-white/40 mb-1 group-hover:text-white transition-colors">{bubble.title}</span>
+                                    <span className="text-[8px] font-medium text-white/20 text-center uppercase tracking-tighter leading-none">{bubble.subtitle}</span>
+
+                                    {/* Decorative particles */}
+                                    <div className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-minfi-gold animate-pulse shadow-[0_0_10px_rgba(245,158,11,0.5)]" />
+                                </div>
+                            </Link>
+                        </motion.div>
+                    </div>
+                ))}
             </div>
 
             {/* Background Glow */}

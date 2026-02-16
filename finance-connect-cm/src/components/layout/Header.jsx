@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { LayoutGrid, GraduationCap, Video, ShieldQuestion, Search, Star, X , Home} from 'lucide-react';
+import { LayoutGrid, GraduationCap, Video, ShieldQuestion, Search, Star, X, Home } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { clsx } from 'clsx';
 
 const navItems = [
     { label: 'ACCUEIL', path: '/', icon: Home },
-    { label: 'FORMATION', path: '/academie', icon: GraduationCap},
-    { label: 'RESSOURCES', path: '/mediatheque', icon: Video },
+    { label: "POINT D'INFORMATION", path: '/info-point', icon: Video },
+    { label: 'OUTILS & DOCS', path: '/outils', icon: GraduationCap },
     { label: 'SERVICES', path: '/e-services', icon: ShieldQuestion },
     { label: 'INSTITUTION', path: '/institution', icon: LayoutGrid },
 ];
@@ -139,6 +139,13 @@ export default function Header() {
                             <Search size={16} />
                             <span className="text-[10px] font-black tracking-[0.2em] uppercase">Rechercher</span>
                         </button>
+
+                        <Link
+                            to="/login"
+                            className="px-6 py-2.5 bg-minfi-emerald/10 border border-minfi-emerald/20 text-minfi-emerald rounded-xl text-[9px] font-black tracking-widest hover:bg-minfi-emerald hover:text-white transition-all uppercase"
+                        >
+                            Espace Agent
+                        </Link>
                     </div>
                 </div>
             </div>
