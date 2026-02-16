@@ -39,18 +39,10 @@ export default function Hero() {
                     transition={{ delay: 1.5, duration: 1 }}
                     className="mt-8 text-center max-w-3xl px-6"
                 >
-                    <h3 className="text-xl md:text-3xl font-heading font-black mb-6 tracking-tight leading-tight">
-                        Maîtriser l'économie par l'éducation financière, <br />
-                        <span className="text-gradient font-accent text-3xl md:text-5xl lowercase">bâtir le futur avec transparence.</span>
-                    </h3>
+
 
                     <div className="flex flex-col md:flex-row items-center justify-center gap-4">
-                        <button className="px-10 py-5 bg-minfi-emerald text-white rounded-xl font-black tracking-widest text-[10px] uppercase shadow-2xl shadow-minfi-emerald/20 hover:scale-105 transition-transform">
-                            Accéder au portail citoyen
-                        </button>
-                        <button className="px-10 py-5 glass-card border-white/5 text-white/60 hover:text-white rounded-xl font-black tracking-widest text-[10px] uppercase transition-all">
-                            Nos guides & démarches
-                        </button>
+     
                     </div>
                 </motion.div>
 

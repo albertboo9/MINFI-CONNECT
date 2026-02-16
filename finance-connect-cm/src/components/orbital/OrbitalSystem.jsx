@@ -44,21 +44,25 @@ export default function OrbitalSystem() {
             <div className="absolute w-[500px] h-[500px] border border-minfi-emerald/10 rounded-full blur-xl" />
 
             {/* Main Title Center */}
-            <div className="z-10 text-center animate-fade-in flex flex-col items-center">
+            <div style={{marginTop: '150px'}} className="z-10 text-center animate-fade-in flex flex-col items-center">
                 <span className="text-minfi-gold text-2xl md:text-3xl mb-0 drop-shadow-[0_0_10px_rgba(245,158,11,0.3)]">
                     Bienvenue sur le 
                 </span>
-                <h1 className="text-6xl md:text-8xl font-accent font-heading font-black tracking-tighter text-white leading-[0.8]">
+                <h1 className="text-6xl md:text-8xl font-accent  font-black tracking-tighter text-white leading-[0.8]">
                     FINANCE<span className="text-minfi-emerald">CONNECT</span>
                 </h1>
                 <div className="flex items-center space-x-4 mt-2">
                     <div className="h-[1px] w-8 bg-white/20" />
-                    <p className="text-white font-black tracking-[0.5em] text-[10px] uppercase opacity-60">
+                    <p className="text-minfi-emerald font-black tracking-[0.5em] text-[30px] uppercase opacity-60">
                         Cameroun
                     </p>
                     <div className="h-[1px] w-8 bg-white/20" />
 
                 </div>
+                <h3 className="text-xl md:text-3xl font-heading font-black mb-6 tracking-tight leading-tight">
+                    Maîtriser l'économie par l'éducation financière, <br />
+                <span className="text-gradient font-accent text-3xl md:text-5xl lowercase">bâtir le futur avec transparence.</span>
+                </h3>
                {/* Value Proposition Cards */}
                 <HeroCards />
             </div>
