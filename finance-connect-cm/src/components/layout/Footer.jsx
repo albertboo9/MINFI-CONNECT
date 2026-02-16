@@ -67,7 +67,7 @@ export default function Footer() {
                     <div className="flex items-center space-x-3">
                         <img src="/flag-emblem.png" alt="Cameroon" className="w-6 h-6 object-contain grayscale opacity-50" />
                         <span className="text-[8px] font-bold text-white/20 tracking-[0.2em] uppercase">
-                            © 2024 Ministère des Finances — Tous droits réservés.
+                            © 2026 Ministère des Finances — Tous droits réservés.
                         </span>
                     </div>
                     <div className="flex items-center space-x-8">

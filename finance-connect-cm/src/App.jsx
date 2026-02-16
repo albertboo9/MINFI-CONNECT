@@ -7,18 +7,21 @@ import Home from './pages/Home/Home';
 
 import MediaHub from './pages/Media/MediaHub';
 import Academy from './pages/Academy/Academy';
+import EServices from './pages/EServices/EServices';
+import ScrollToTop from './components/utils/ScrollToTop';
 
 function App() {
   return (
     <HelmetProvider>
       <div className="min-h-screen">
+        <ScrollToTop />
         <Header />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/institution" element={<PagePlaceholder title="INSTITUTION" />} />
           <Route path="/academie" element={<Academy />} />
           <Route path="/mediatheque" element={<MediaHub />} />
-          <Route path="/e-services" element={<PagePlaceholder title="E-SERVICES" />} />
+          <Route path="/e-services" element={<EServices />} />
         </Routes>
         <Footer />
       </div>

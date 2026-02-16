@@ -1,52 +1,59 @@
-import React from 'react';
+import { Shield, FileText, Landmark, Scale } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { Shield, Book, Activity, Smartphone } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const heroCards = [
     {
+        icon: FileText,
+        title: "FISCALITÉ",
+        desc: "Déclarations d'impôts & Taxes.",
+        color: "emerald",
+        path: "/e-services"
+    },
+    {
         icon: Shield,
-        title: "Souveraineté",
-        desc: "Sécurisation et transparence absolue des fonds publics.",
-        color: "emerald",
-    },
-    {
-        icon: Book,
-        title: "Éducation",
-        desc: "Comprendre vos droits et devoirs en un clic.",
+        title: "DOUANES",
+        desc: "Import - Export & Portails dédouanement.",
         color: "gold",
+        path: "/e-services"
     },
     {
-        icon: Activity,
-        title: "Temps Réel",
-        desc: "Suivez l'exécution du budget de l'État en direct.",
+        icon: Landmark,
+        title: "TRÉSOR",
+        desc: "Paiements, Retraites & Budget.",
         color: "emerald",
+        path: "/e-services"
     },
     {
-        icon: Smartphone,
-        title: "E-Services",
-        desc: "Dématérialisation totale de vos démarches fiscales.",
+        icon: Scale,
+        title: "RÉFORMES",
+        desc: "Lois de Finances & Législation.",
         color: "gold",
+        path: "/institution"
     },
 ];
 
 export default function HeroCards() {
     return (
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-20 w-full max-w-5xl px-6 relative z-20">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-8 w-full max-w-6xl px-6 relative z-20">
             {heroCards.map((card, index) => (
-                <motion.div
-                    key={index}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 2 + index * 0.1 }}
-                    whileHover={{ y: -5, borderColor: `rgba(var(--minfi-${card.color}-rgb), 0.5)` }}
-                    className="glass-card p-6 flex flex-col items-center text-center space-y-3 group border-white/5 hover:bg-white/[0.08] transition-all duration-500"
-                >
-                    <div className={`p-3 rounded-xl bg-minfi-${card.color}/10 text-minfi-${card.color} group-hover:scale-110 transition-transform`}>
-                        <card.icon size={24} />
-                    </div>
-                    <h4 className="text-[10px] font-black tracking-[0.2em] uppercase text-white">{card.title}</h4>
-                    <p className="text-[10px] font-medium text-white/30 leading-tight">{card.desc}</p>
-                </motion.div>
+                <Link key={index} to={card.path}>
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 1 + index * 0.1 }}
+                        whileHover={{ y: -5, borderColor: `rgba(var(--minfi-${card.color}-rgb), 0.3)` }}
+                        className="glass-card w-20px px-6 py-4 flex items-center space-x-4 group border-white/5 hover:bg-white/[0.08] transition-all duration-500 cursor-pointer h-full"
+                    >
+                        <div className={`flex-shrink-0 p-3 rounded-xl bg-minfi-${card.color}/10 text-minfi-${card.color} group-hover:scale-110 transition-transform`}>
+                            <card.icon size={20} />
+                        </div>
+                        <div className="flex flex-col text-left overflow-hidden">
+                            <h4 className="text-[10px] font-black tracking-[0.2em] uppercase text-white truncate">{card.title}</h4>
+                            <p className="text-[9px] font-medium text-white/30 truncate leading-tight mt-0.5">{card.desc}</p>
+                        </div>
+                    </motion.div>
+                </Link>
             ))}
         </div>
     );

@@ -1,21 +1,61 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { LayoutGrid, GraduationCap, Video, ShieldQuestion, Search, Star } from 'lucide-react';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { LayoutGrid, GraduationCap, Video, ShieldQuestion, Search, Star, X , Home} from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { clsx } from 'clsx';
 
 const navItems = [
+    { label: 'ACCUEIL', path: '/', icon: Home },
     { label: 'INSTITUTION', path: '/institution', icon: LayoutGrid },
-    { label: 'ACADÉMIE', path: '/academie', icon: GraduationCap },
-    { label: 'MÉDIATHÈQUE', path: '/mediatheque', icon: Video },
-    { label: 'E-SERVICES', path: '/e-services', icon: ShieldQuestion },
+    { label: 'FORMATION', path: '/academie', icon: GraduationCap, isExternal: true },
+    { label: 'RESSOURCES', path: '/mediatheque', icon: Video },
+    { label: 'SERVICES', path: '/e-services', icon: ShieldQuestion },
 ];
 
 export default function Header() {
     const location = useLocation();
+    const [isSearchOpen, setIsSearchOpen] = useState(false);
 
     return (
         <header className="fixed top-0 left-0 w-full z-50">
+            {/* Search Overlay */}
+            <AnimatePresence>
+                {isSearchOpen && (
+                    <motion.div
+                        initial={{ opacity: 0, y: -20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -20 }}
+                        className="absolute inset-0 h-screen bg-minfi-blue/95 backdrop-blur-xl z-[60] flex flex-col items-center justify-center px-6"
+                    >
+                        <button
+                            onClick={() => setIsSearchOpen(false)}
+                            className="absolute top-12 right-12 p-3 bg-white/5 rounded-full hover:bg-white/10 transition-colors"
+                        >
+                            <X size={24} className="text-white" />
+                        </button>
+                        <div className="w-full max-w-3xl space-y-8 text-center">
+                            <h2 className="text-4xl font-heading font-black text-white italic">Que recherchez-vous ?</h2>
+                            <div className="relative group">
+                                <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-minfi-emerald" size={24} />
+                                <input
+                                    autoFocus
+                                    type="text"
+                                    placeholder="Tapez votre recherche (ex: impôts, douane, budget...)"
+                                    className="w-full bg-white/5 border-2 border-white/10 rounded-3xl py-6 pl-16 pr-8 text-xl text-white outline-none focus:border-minfi-emerald transition-all"
+                                />
+                            </div>
+                            <div className="flex flex-wrap justify-center gap-3">
+                                {['Loi de finances', 'Paiement impôts', 'Télédéclaration', 'Concours Trésor'].map(tag => (
+                                    <button key={tag} className="px-5 py-2 bg-white/5 rounded-full text-[10px] font-black tracking-widest text-white/40 hover:text-minfi-emerald hover:bg-minfi-emerald/10 transition-all uppercase">
+                                        {tag}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+
             {/* Official Top Bar with Flag Stripes */}
             <div className="h-1.5 w-full flex">
                 <div className="flex-1 bg-[#007A5E]" /> {/* Green */}
@@ -41,11 +81,11 @@ export default function Header() {
                 <div className="glass-card px-8 py-3 flex items-center justify-between shadow-2xl shadow-black/50 border-white/10">
                     {/* Logo */}
                     <Link to="/" className="flex items-center space-x-3 group">
-                        <div className="w-12 h-12 bg-gradient-to-br from-minfi-emerald to-minfi-gold rounded-xl flex items-center justify-center shadow-lg group-hover:scale-105 transition-transform">
-                            <span className="text-white font-black text-2xl tracking-tighter">M</span>
+                        <div className="w-14 h-14 bg-white rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-105 transition-transform overflow-hidden p-1.5">
+                            <img src="/MINFI_LOGO.png" alt="MINFI Logo" className="w-full h-full object-contain" />
                         </div>
                         <div className="flex flex-col">
-                            <span className="font-heading font-black text-lg tracking-tighter leading-none group-hover:text-minfi-emerald transition-colors">MINFI</span>
+                            <span className="font-heading font-black text-xl tracking-tighter leading-none group-hover:text-minfi-emerald transition-colors italic uppercase">MINFI</span>
                             <span className="text-[8px] text-minfi-emerald font-black tracking-[0.3em] uppercase">Connect Cameroun</span>
                         </div>
                     </Link>
@@ -54,6 +94,20 @@ export default function Header() {
                     <nav className="hidden md:flex items-center space-x-8">
                         {navItems.map((item) => {
                             const isActive = location.pathname === item.path;
+                            if (item.isExternal) {
+                                return (
+                                    <a
+                                        key={item.path}
+                                        href={item.path}
+                                        target="_blank"
+                                        rel="noreferrer"
+                                        className="relative py-2 flex items-center space-x-2 text-[10px] font-black tracking-[0.2em] text-white/40 hover:text-white transition-all duration-300"
+                                    >
+                                        <item.icon size={14} className="text-white/20" />
+                                        <span>{item.label}</span>
+                                    </a>
+                                );
+                            }
                             return (
                                 <Link
                                     key={item.path}
@@ -78,16 +132,13 @@ export default function Header() {
 
                     {/* Search & Actions */}
                     <div className="flex items-center space-x-6">
-                        <button className="hidden lg:flex items-center space-x-2 text-white/30 hover:text-white transition-colors">
-                            <Search size={16} />
-                            <span className="text-[10px] font-bold tracking-widest">RECHERCHER</span>
-                        </button>
-                        <Link
-                            to="/login"
-                            className="px-6 py-2 bg-white text-minfi-blue hover:bg-minfi-emerald hover:text-white transition-all duration-300 text-[10px] font-black rounded-lg tracking-[0.2em] uppercase shadow-xl shadow-white/10"
+                        <button
+                            onClick={() => setIsSearchOpen(true)}
+                            className="flex items-center space-x-2 text-white/30 hover:text-white transition-colors"
                         >
-                            Portail Agent
-                        </Link>
+                            <Search size={16} />
+                            <span className="text-[10px] font-black tracking-[0.2em] uppercase">Rechercher</span>
+                        </button>
                     </div>
                 </div>
             </div>
