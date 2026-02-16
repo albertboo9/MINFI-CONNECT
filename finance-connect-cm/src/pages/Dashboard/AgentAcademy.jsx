@@ -97,11 +97,12 @@ export default function AgentAcademy() {
                                         <div className="h-full bg-minfi-emerald w-[65%]" />
                                     </div>
                                 </div>
+                                <a href="https://campus.studieslearning.com/course/view.php?id=1527" target="_blank" className="flex items-center space-x-3">
+                                    <button className="w-full py-3.5 bg-white text-minfi-blue rounded-xl font-black tracking-widest text-[10px] uppercase hover:bg-minfi-emerald hover:text-white transition-all shadow-xl flex items-center justify-center space-x-3 group/btn">
+                                        <span>Reprendre le cours</span>
+                                        <ArrowRight size={14} className="group-hover/btn:translate-x-1 transition-transform" />
 
-                                <button className="w-full py-3.5 bg-white text-minfi-blue rounded-xl font-black tracking-widest text-[10px] uppercase hover:bg-minfi-emerald hover:text-white transition-all shadow-xl flex items-center justify-center space-x-3 group/btn">
-                                    <span>Reprendre le cours</span>
-                                    <ArrowRight size={14} className="group-hover/btn:translate-x-1 transition-transform" />
-                                </button>
+                                    </button></a>
                             </div>
 
                             {/* Certif Badge Mockup */}

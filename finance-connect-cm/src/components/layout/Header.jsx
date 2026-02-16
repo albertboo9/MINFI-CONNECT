@@ -9,7 +9,6 @@ const navItems = [
     { label: "POINT D'INFORMATION", path: '/info-point', icon: Video },
     { label: 'OUTILS & DOCS', path: '/outils', icon: GraduationCap },
     { label: 'SERVICES', path: '/e-services', icon: ShieldQuestion },
-    { label: 'INSTITUTION', path: '/institution', icon: LayoutGrid },
 ];
 
 export default function Header() {

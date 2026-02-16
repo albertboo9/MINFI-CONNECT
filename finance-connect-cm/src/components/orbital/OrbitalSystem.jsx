@@ -53,7 +53,7 @@ export default function OrbitalSystem() {
                     Bienvenue sur le
                 </span>
                 <h1 className="text-6xl md:text-8xl font-accent  font-black tracking-tighter text-white leading-[0.8]">
-                    FINANCE<span className="text-minfi-emerald">CONNECT</span>
+                    MINFI<span className="text-minfi-emerald">CONNECT</span>
                 </h1>
                 <div className="flex items-center space-x-4 mt-2">
                     <div className="h-[1px] w-8 bg-white/20" />
