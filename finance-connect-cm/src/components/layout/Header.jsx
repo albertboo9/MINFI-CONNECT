@@ -6,10 +6,10 @@ import { clsx } from 'clsx';
 
 const navItems = [
     { label: 'ACCUEIL', path: '/', icon: Home },
-    { label: 'INSTITUTION', path: '/institution', icon: LayoutGrid },
-    { label: 'FORMATION', path: '/academie', icon: GraduationCap, isExternal: true },
+    { label: 'FORMATION', path: '/academie', icon: GraduationCap},
     { label: 'RESSOURCES', path: '/mediatheque', icon: Video },
     { label: 'SERVICES', path: '/e-services', icon: ShieldQuestion },
+    { label: 'INSTITUTION', path: '/institution', icon: LayoutGrid },
 ];
 
 export default function Header() {
