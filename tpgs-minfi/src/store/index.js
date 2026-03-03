@@ -1,6 +1,7 @@
 // src/store/index.js
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import i18n from '../i18n/index.js';
 
 export const ROLES = {
     OPERATOR: 'operator',
@@ -8,7 +9,6 @@ export const ROLES = {
     HRM: 'hrm',
     TECH: 'tech',
     DIRECTOR: 'director',
-    ADMIN: 'admin',
 };
 
 const MOCK_USERS = {
@@ -19,23 +19,38 @@ const MOCK_USERS = {
     [ROLES.DIRECTOR]: { id: 'u5', name: 'Jean-Pierre Atangana', initials: 'JA', role: ROLES.DIRECTOR, department: 'Secrétariat Général', grade: 'Secrétaire Général Adjoint', matricule: '034001-E' },
 };
 
+// Apply theme class to html root element
+const applyTheme = (isDark) => {
+    if (isDark) {
+        document.documentElement.classList.remove('light');
+    } else {
+        document.documentElement.classList.add('light');
+    }
+};
+
 export const useAppStore = create(
     persist(
-        (set) => ({
+        (set, get) => ({
             // Theme
             isDark: true,
-            toggleTheme: () => set((s) => {
-                const next = !s.isDark;
-                document.documentElement.classList.toggle('light', !next);
-                return { isDark: next };
-            }),
+            toggleTheme: () => {
+                const next = !get().isDark;
+                applyTheme(next);
+                set({ isDark: next });
+            },
 
-            // Language
+            // Language — live switch without page reload
             lang: 'fr',
             setLang: (lang) => {
+                i18n.changeLanguage(lang);
                 localStorage.setItem('tpgs-lang', lang);
                 set({ lang });
-                window.location.reload();
+            },
+            toggleLang: () => {
+                const next = get().lang === 'fr' ? 'en' : 'fr';
+                i18n.changeLanguage(next);
+                localStorage.setItem('tpgs-lang', next);
+                set({ lang: next });
             },
 
             // Active role (demo switcher)
@@ -43,17 +58,29 @@ export const useAppStore = create(
             currentUser: MOCK_USERS[ROLES.OPERATOR],
             setRole: (role) => set({ activeRole: role, currentUser: MOCK_USERS[role] }),
 
-            // Sidebar collapsed
+            // Sidebar
             sidebarOpen: true,
             toggleSidebar: () => set((s) => ({ sidebarOpen: !s.sidebarOpen })),
+
+            // Notification panel
+            notifPanelOpen: false,
+            toggleNotifPanel: () => set((s) => ({ notifPanelOpen: !s.notifPanelOpen })),
+            closeNotifPanel: () => set({ notifPanelOpen: false }),
         }),
         {
             name: 'tpgs-app-store',
             partialize: (s) => ({ isDark: s.isDark, lang: s.lang, activeRole: s.activeRole }),
+            onRehydrateStorage: () => (state) => {
+                if (state) {
+                    applyTheme(state.isDark);
+                    if (state.lang) i18n.changeLanguage(state.lang);
+                    // Rehydrate user from saved role
+                    state.currentUser = MOCK_USERS[state.activeRole] || MOCK_USERS[ROLES.OPERATOR];
+                }
+            },
         }
     )
 );
 
-// Init theme on load
-const { isDark } = useAppStore.getState();
-if (!isDark) document.documentElement.classList.add('light');
+// Init theme immediately
+applyTheme(useAppStore.getState().isDark);
