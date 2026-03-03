@@ -5,15 +5,6 @@ import { X, Bell, CheckCircle2, AlertTriangle, Info, CheckCheck } from 'lucide-r
 import { useAppStore } from '../../store/index.js';
 import { useSound } from '../../hooks/useSound.js';
 
-export const NOTIFICATIONS = [
-    { id: 'n1', type: 'warning', title: 'Rapport hebdomadaire en retard', message: 'Paul-Éric Nkodo — Rapport non soumis depuis 12 jours', date: 'Il y a 2h', read: false, role: 'manager' },
-    { id: 'n2', type: 'success', title: 'Certification validée', message: 'Marie-Claire Owona a obtenu la Certification ARMP', date: 'Il y a 3h', read: false, role: 'manager' },
-    { id: 'n3', type: 'info', title: 'Deadline évaluations', message: 'Saisie des évaluations annuelles — Clôture le 15 mars', date: 'Il y a 5h', read: true, role: 'all' },
-    { id: 'n4', type: 'alert', title: 'Budget 80% consommé', message: 'Direction des Douanes — Enveloppe formation quasi épuisée', date: 'Hier', read: true, role: 'hrm' },
-    { id: 'n5', type: 'info', title: 'Demande approuvée', message: "Votre demande 'Excel Avancé' a été approuvée par C. Ngo Biyong", date: 'Hier', read: true, role: 'operator' },
-    { id: 'n6', type: 'warning', title: 'Formation non démarrée', message: "'Marchés Publics' — Planifiée il y a 35 jours, aucune activité", date: '2 jours', read: true, role: 'tech' },
-];
-
 const TYPE_CONFIG = {
     success: { icon: CheckCircle2, color: '#10B981', bg: 'rgba(16,185,129,0.08)' },
     warning: { icon: AlertTriangle, color: '#F59E0B', bg: 'rgba(245,158,11,0.08)' },
@@ -22,12 +13,13 @@ const TYPE_CONFIG = {
 };
 
 export default function NotificationPanel() {
-    const { notifPanelOpen, closeNotifPanel } = useAppStore();
+    const { notifPanelOpen, closeNotifPanel, notifications, markAllNotificationsRead, activeRole } = useAppStore();
     const { playNotify } = useSound();
 
-    const unread = NOTIFICATIONS.filter(n => !n.read).length;
+    // Filter by role
+    const filtered = notifications.filter(n => n.role === 'all' || n.role === activeRole);
+    const unread = filtered.filter(n => !n.read).length;
 
-    // Play sound when panel opens with unread
     useEffect(() => {
         if (notifPanelOpen && unread > 0) {
             setTimeout(() => playNotify(), 200);
@@ -38,12 +30,9 @@ export default function NotificationPanel() {
         <AnimatePresence>
             {notifPanelOpen && (
                 <>
-                    {/* Backdrop */}
                     <motion.div className="drawer-overlay" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={closeNotifPanel} />
-
-                    {/* Panel */}
                     <motion.div
-                        className="drawer-panel animate-slide-in-right"
+                        className="drawer-panel"
                         initial={{ x: '100%' }}
                         animate={{ x: 0 }}
                         exit={{ x: '100%' }}
@@ -62,22 +51,19 @@ export default function NotificationPanel() {
                             </div>
                             <div className="flex items-center gap-2">
                                 {unread > 0 && (
-                                    <button className="flex items-center gap-1.5 text-xs font-semibold text-tpgs-emerald hover:text-emerald-300 transition-colors px-3 py-2 rounded-xl hover:bg-tpgs-emerald/10">
-                                        <CheckCheck size={13} /> Tout marquer lu
+                                    <button onClick={markAllNotificationsRead} className="flex items-center gap-1.5 text-xs font-semibold text-tpgs-emerald hover:text-emerald-300 transition-colors px-3 py-2 rounded-xl hover:bg-themed-hover">
+                                        <CheckCheck size={13} /> Tout lire
                                     </button>
                                 )}
-                                <button onClick={closeNotifPanel} className="p-2 rounded-xl transition-colors" style={{ color: 'var(--text-muted)' }}
-                                    onMouseEnter={(e) => e.currentTarget.style.background = 'var(--bg-hover)'}
-                                    onMouseLeave={(e) => e.currentTarget.style.background = ''}
-                                >
+                                <button onClick={closeNotifPanel} className="p-2 rounded-xl hover:bg-themed-hover transition-colors" style={{ color: 'var(--text-muted)' }}>
                                     <X size={18} />
                                 </button>
                             </div>
                         </div>
 
                         {/* Notifications list */}
-                        <div className="divide-y" style={{ borderColor: 'var(--border)' }}>
-                            {NOTIFICATIONS.map((n, i) => {
+                        <div className="divide-y overflow-y-auto max-h-[calc(100vh-80px)]" style={{ borderColor: 'var(--border)' }}>
+                            {filtered.map((n, i) => {
                                 const cfg = TYPE_CONFIG[n.type] || TYPE_CONFIG.info;
                                 const Icon = cfg.icon;
                                 return (
@@ -86,24 +72,30 @@ export default function NotificationPanel() {
                                         initial={{ opacity: 0, x: 20 }}
                                         animate={{ opacity: 1, x: 0 }}
                                         transition={{ delay: i * 0.05 }}
-                                        className="flex gap-4 px-6 py-4 cursor-pointer transition-all hover:brightness-105"
-                                        style={{ backgroundColor: !n.read ? cfg.bg : 'transparent' }}
+                                        className="flex gap-4 px-6 py-4 cursor-pointer transition-all hover:bg-themed-hover/40"
+                                        style={{ borderLeft: !n.read ? `3px solid ${cfg.color}` : 'none' }}
                                     >
                                         <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 mt-0.5"
-                                            style={{ backgroundColor: cfg.bg, border: `1px solid ${cfg.color}20` }}>
+                                            style={{ backgroundColor: cfg.bg }}>
                                             <Icon size={16} style={{ color: cfg.color }} />
                                         </div>
                                         <div className="flex-1 min-w-0">
                                             <div className="flex items-start justify-between gap-2">
-                                                <p className="text-sm font-semibold leading-snug" style={{ color: 'var(--text-primary)' }}>{n.title}</p>
-                                                {!n.read && <div className="w-2 h-2 rounded-full flex-shrink-0 mt-1" style={{ backgroundColor: cfg.color }} />}
+                                                <p className={`text-sm leading-snug ${!n.read ? 'font-bold' : 'font-medium'}`} style={{ color: 'var(--text-primary)' }}>{n.title}</p>
                                             </div>
-                                            <p className="text-xs mt-1 leading-snug" style={{ color: 'var(--text-muted)' }}>{n.message}</p>
+                                            <p className="text-xs mt-1 leading-relaxed" style={{ color: 'var(--text-muted)' }}>{n.message}</p>
                                             <p className="text-[10px] mt-1.5 font-mono" style={{ color: 'var(--text-faint)' }}>{n.date}</p>
                                         </div>
                                     </motion.div>
                                 );
                             })}
+
+                            {filtered.length === 0 && (
+                                <div className="p-20 text-center">
+                                    <Bell size={40} className="mx-auto text-themed-muted opacity-10 mb-4" />
+                                    <p className="text-sm text-themed-muted">Aucune notification pour votre rôle.</p>
+                                </div>
+                            )}
                         </div>
                     </motion.div>
                 </>

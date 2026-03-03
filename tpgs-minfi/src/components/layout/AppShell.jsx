@@ -9,7 +9,6 @@ import {
     Bell, Sun, Moon, Globe, ChevronLeft, Shield, TrendingUp, BookMarked
 } from 'lucide-react';
 import { useAppStore, ROLES } from '../../store/index.js';
-import { NOTIFICATIONS } from '../ui/NotificationPanel.jsx';
 import RoleSwitcher from '../ui/RoleSwitcher.jsx';
 import NotificationPanel from '../ui/NotificationPanel.jsx';
 import ToastContainer from '../ui/ToastContainer.jsx';
@@ -60,12 +59,12 @@ const ROLE_ACCENT = {
 
 export default function AppShell({ children }) {
     const { t } = useTranslation();
-    const { isDark, toggleTheme, toggleLang, lang, sidebarOpen, toggleSidebar, currentUser, activeRole, notifPanelOpen, toggleNotifPanel } = useAppStore();
+    const { isDark, toggleTheme, toggleLang, lang, sidebarOpen, toggleSidebar, currentUser, activeRole, notifPanelOpen, toggleNotifPanel, notifications } = useAppStore();
     const navigate = useNavigate();
     const location = useLocation();
 
     const navItems = NAV_MAP[activeRole] || NAV_MAP[ROLES.OPERATOR];
-    const unread = NOTIFICATIONS.filter(n => !n.read).length;
+    const unread = notifications.filter(n => (n.role === 'all' || n.role === activeRole) && !n.read).length;
     const accent = ROLE_ACCENT[activeRole] || '#10B981';
 
     const currentNavItem = navItems.find(i =>

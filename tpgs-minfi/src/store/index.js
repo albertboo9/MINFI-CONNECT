@@ -19,7 +19,15 @@ const MOCK_USERS = {
     [ROLES.DIRECTOR]: { id: 'u5', name: 'Jean-Pierre Atangana', initials: 'JA', role: ROLES.DIRECTOR, department: 'Secrétariat Général', grade: 'Secrétaire Général Adjoint', matricule: '034001-E' },
 };
 
-// Apply theme class to html root element
+const INITIAL_NOTIFICATIONS = [
+    { id: 'n1', type: 'warning', title: 'Rapport hebdomadaire en retard', message: 'Paul-Éric Nkodo — Rapport non soumis depuis 12 jours', date: 'Il y a 2h', read: false, role: ROLES.MANAGER },
+    { id: 'n2', type: 'success', title: 'Certification validée', message: 'Marie-Claire Owona a obtenu la Certification ARMP', date: 'Il y a 3h', read: false, role: ROLES.MANAGER },
+    { id: 'n3', type: 'info', title: 'Deadline évaluations', message: 'Saisie des évaluations annuelles — Clôture le 15 mars', date: 'Il y a 5h', read: true, role: 'all' },
+    { id: 'n4', type: 'alert', title: 'Budget 80% consommé', message: 'Direction des Douanes — Enveloppe formation quasi épuisée', date: 'Hier', read: true, role: ROLES.HRM },
+    { id: 'n5', type: 'info', title: 'Demande approuvée', message: "Votre demande 'Excel Avancé' a été approuvée par C. Ngo Biyong", date: 'Hier', read: true, role: ROLES.OPERATOR },
+    { id: 'n6', type: 'warning', title: 'Formation non démarrée', message: "'Marchés Publics' — Planifiée il y a 35 jours, aucune activité", date: '2 jours', read: true, role: ROLES.TECH },
+];
+
 const applyTheme = (isDark) => {
     if (isDark) {
         document.documentElement.classList.remove('light');
@@ -39,42 +47,52 @@ export const useAppStore = create(
                 set({ isDark: next });
             },
 
-            // Language — live switch without page reload
+            // Language
             lang: 'fr',
             setLang: (lang) => {
                 i18n.changeLanguage(lang);
-                localStorage.setItem('tpgs-lang', lang);
                 set({ lang });
             },
             toggleLang: () => {
                 const next = get().lang === 'fr' ? 'en' : 'fr';
                 i18n.changeLanguage(next);
-                localStorage.setItem('tpgs-lang', next);
                 set({ lang: next });
             },
 
-            // Active role (demo switcher)
+            // Notifications
+            notifications: INITIAL_NOTIFICATIONS,
+            markAllNotificationsRead: () => {
+                set(s => ({
+                    notifications: s.notifications.map(n => ({ ...n, read: true }))
+                }));
+            },
+            addNotification: (n) => {
+                set(s => ({ notifications: [{ id: `n${Date.now()}`, date: 'À l\'instant', read: false, role: 'all', ...n }, ...s.notifications] }));
+            },
+
+            // Active role
             activeRole: ROLES.OPERATOR,
             currentUser: MOCK_USERS[ROLES.OPERATOR],
             setRole: (role) => set({ activeRole: role, currentUser: MOCK_USERS[role] }),
 
-            // Sidebar
+            // UI State
             sidebarOpen: true,
             toggleSidebar: () => set((s) => ({ sidebarOpen: !s.sidebarOpen })),
-
-            // Notification panel
             notifPanelOpen: false,
             toggleNotifPanel: () => set((s) => ({ notifPanelOpen: !s.notifPanelOpen })),
             closeNotifPanel: () => set({ notifPanelOpen: false }),
+
+            // Workspace Data (Simulated)
+            myTeamRequests: [], // For Managers
+            allEmployees: [],  // For HRM
         }),
         {
             name: 'tpgs-app-store',
-            partialize: (s) => ({ isDark: s.isDark, lang: s.lang, activeRole: s.activeRole }),
+            partialize: (s) => ({ isDark: s.isDark, lang: s.lang, activeRole: s.activeRole, notifications: s.notifications }),
             onRehydrateStorage: () => (state) => {
                 if (state) {
                     applyTheme(state.isDark);
                     if (state.lang) i18n.changeLanguage(state.lang);
-                    // Rehydrate user from saved role
                     state.currentUser = MOCK_USERS[state.activeRole] || MOCK_USERS[ROLES.OPERATOR];
                 }
             },
@@ -82,5 +100,4 @@ export const useAppStore = create(
     )
 );
 
-// Init theme immediately
 applyTheme(useAppStore.getState().isDark);

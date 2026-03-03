@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
-import { catalogue } from '../data/mock.js';
+import { catalogue as initialCatalogue } from '../data/mock.js';
 import {
     Search, BookOpen, Clock, DollarSign, ExternalLink,
     Filter, Star, Globe, Shield, Zap, Send, FileText,
-    ChevronRight, PlayCircle, Info, Target, Users
+    ChevronRight, PlayCircle, Info, Target, Users, Plus, CheckCircle2
 } from 'lucide-react';
 import { clsx } from 'clsx';
 import { toast } from '../store/toastStore.js';
 import { useSound } from '../hooks/useSound.js';
+import { useAppStore, ROLES } from '../store/index.js';
 import Modal from '../components/ui/Modal.jsx';
 
 const CAT_THEMES = {
@@ -19,24 +20,87 @@ const CAT_THEMES = {
     executive: { label: 'Executive', badge: 'badge-purple', color: '#8B5CF6' },
 };
 
+/* ── Add Training Modal (Tech) ───────────────────────── */
+function AddTrainingModal({ open, onClose, onAdd }) {
+    const [form, setForm] = useState({ title: '', provider: '', duration: '', category: 'job', isFree: false, description: '' });
+    const { playSuccess } = useSound();
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        if (!form.title || !form.provider) { toast.error('Titre et prestataire obligatoires'); return; }
+        onAdd(form);
+        playSuccess();
+        toast.success('Nouvelle formation référencée', { title: 'Catalogue mis à jour ✓' });
+        onClose();
+        setForm({ title: '', provider: '', duration: '', category: 'job', isFree: false, description: '' });
+    };
+
+    return (
+        <Modal open={open} onClose={onClose} title="Référencer une formation" subtitle="Gestion du catalogue de sourcing" size="sm"
+            footer={<>
+                <button onClick={onClose} className="btn-ghost">Annuler</button>
+                <button type="submit" form="add-cat-form" className="btn-primary">Ajouter au catalogue</button>
+            </>}>
+            <form id="add-cat-form" onSubmit={handleSubmit} className="space-y-4">
+                <div>
+                    <label className="section-label mb-1.5 block">Titre de la formation *</label>
+                    <input className="input" value={form.title} onChange={e => setForm(f => ({ ...f, title: e.target.value }))} placeholder="Ex: Analyse de données financières" />
+                </div>
+                <div className="grid grid-cols-2 gap-3">
+                    <div>
+                        <label className="section-label mb-1.5 block">Prestataire *</label>
+                        <input className="input" value={form.provider} onChange={e => setForm(f => ({ ...f, provider: e.target.value }))} placeholder="Ex: Cabinet Audit" />
+                    </div>
+                    <div>
+                        <label className="section-label mb-1.5 block">Durée</label>
+                        <input className="input" value={form.duration} onChange={e => setForm(f => ({ ...f, duration: e.target.value }))} placeholder="Ex: 3 jours" />
+                    </div>
+                </div>
+                <div className="flex items-center gap-6 p-3 bg-themed-hover rounded-xl border border-dashed border-themed">
+                    <label className="flex items-center gap-2 cursor-pointer">
+                        <input type="checkbox" checked={form.isFree} onChange={e => setForm(f => ({ ...f, isFree: e.target.checked }))} className="w-4 h-4 accent-tpgs-emerald" />
+                        <span className="text-xs font-bold text-themed">Formation gratuite</span>
+                    </label>
+                    <select className="bg-transparent text-xs font-bold text-themed outline-none border-none" value={form.category} onChange={e => setForm(f => ({ ...f, category: e.target.value }))}>
+                        {Object.entries(CAT_THEMES).map(([k, v]) => <option key={k} value={k}>{v.label}</option>)}
+                    </select>
+                </div>
+                <div>
+                    <label className="section-label mb-1.5 block">Description succincte</label>
+                    <textarea className="textarea" rows={3} value={form.description} onChange={e => setForm(f => ({ ...f, description: e.target.value }))} />
+                </div>
+            </form>
+        </Modal>
+    );
+}
+
 /* ── Course Preview Modal ───────────────────────────── */
-function CourseModal({ course, open, onClose, onShowRequest }) {
+function CourseModal({ course, open, onClose, onShowRequest, onStartFree, isOp }) {
     if (!course) return null;
     const theme = CAT_THEMES[course.category] || CAT_THEMES.job;
 
     return (
         <Modal open={open} onClose={onClose} title={course.title} subtitle={course.provider} size="lg"
-            footer={<>
-                <button onClick={onClose} className="btn-ghost">Fermer</button>
-                <button onClick={() => { onShowRequest(course); onClose(); }} className="btn-primary">
-                    <Send size={15} /> Demander cette formation
-                </button>
-            </>}>
+            footer={
+                <>
+                    <button onClick={onClose} className="btn-ghost">Fermer</button>
+                    {course.isFree && isOp ? (
+                        <button onClick={() => { onStartFree(course); onClose(); }} className="btn-approve animate-pulse">
+                            <PlayCircle size={15} /> Démarrer immédiatement
+                        </button>
+                    ) : (
+                        <button onClick={() => { onShowRequest(course); onClose(); }} className="btn-primary">
+                            <Send size={15} /> Demander cette formation
+                        </button>
+                    )}
+                </>
+            }>
             <div className="space-y-8">
                 <div className="flex flex-wrap gap-2">
                     <span className={clsx('badge', theme.badge)}>{theme.label}</span>
                     <span className="badge badge-slate">{course.certification || 'Attestation MINFI'}</span>
                     <span className="badge badge-blue">{course.duration}</span>
+                    {course.isFree && <span className="badge badge-emerald">Gratuité totale</span>}
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -57,14 +121,14 @@ function CourseModal({ course, open, onClose, onShowRequest }) {
                     <div className="card p-4 flex items-center gap-3 border-tpgs-emerald/20">
                         <DollarSign size={18} className="text-tpgs-emerald" />
                         <div>
-                            <p className="section-label mb-0.5">Investissement</p>
-                            <p className="text-sm font-bold text-tpgs-emerald">{course.cost > 0 ? `${course.cost.toLocaleString()} FCFA` : 'Coût Interne'}</p>
+                            <p className="section-label mb-0.5">Coût</p>
+                            <p className="text-sm font-black text-tpgs-emerald">{course.cost > 0 ? `${course.cost.toLocaleString()} FCFA` : 'Sourcing Interne'}</p>
                         </div>
                     </div>
                 </div>
 
                 <div className="space-y-4">
-                    <h3 className="font-heading font-black text-lg text-themed">Objectifs de la formation</h3>
+                    <h3 className="font-heading font-black text-lg text-themed">Objectifs pédagogiques</h3>
                     <p className="text-sm text-themed-muted leading-relaxed">{course.description}</p>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4">
                         <div className="space-y-3">
@@ -79,7 +143,7 @@ function CourseModal({ course, open, onClose, onShowRequest }) {
                         </div>
                         <div className="space-y-3">
                             <p className="section-label flex items-center gap-2"><Users size={12} /> Public cible</p>
-                            <p className="text-xs text-themed-muted leading-relaxed">Cadres, Inspecteurs et agents techniques de la Direction concernée.</p>
+                            <p className="text-xs text-themed-muted leading-relaxed">Agents et cadres de la Direction concernée par le référentiel métier.</p>
                         </div>
                     </div>
                 </div>
@@ -89,13 +153,18 @@ function CourseModal({ course, open, onClose, onShowRequest }) {
 }
 
 export default function Catalogue() {
-    const { t } = useTranslation();
-    const { playClick, playSuccess } = useSound();
+    const { activeRole } = useAppStore();
+    const { playClick, playSuccess, playNotify } = useSound();
     const [search, setSearch] = useState('');
     const [catFilter, setCatFilter] = useState('all');
     const [selectedCourse, setSelectedCourse] = useState(null);
+    const [addMode, setAddMode] = useState(false);
+    const [courses, setCourses] = useState(initialCatalogue);
 
-    const filtered = catalogue.filter(c =>
+    const isTech = activeRole === ROLES.TECH;
+    const isOp = activeRole === ROLES.OPERATOR;
+
+    const filtered = courses.filter(c =>
         (catFilter === 'all' || c.category === catFilter) &&
         (c.title.toLowerCase().includes(search.toLowerCase()) || c.provider.toLowerCase().includes(search.toLowerCase()))
     );
@@ -105,16 +174,32 @@ export default function Catalogue() {
         toast.success(`Demande pour "${course.title}" initiée`, { title: 'Soumission Rapide ✓', duration: 3000 });
     };
 
+    const handleStartFree = (course) => {
+        playNotify();
+        toast.success(`Formation "${course.title}" démarrée !`, { title: 'Inscription instantanée 🚀', duration: 4000 });
+    };
+
+    const handleAddCourse = (data) => {
+        const newC = { ...data, id: `c${Date.now()}`, modality: 'blended', cost: data.isFree ? 0 : 75000 };
+        setCourses([newC, ...courses]);
+    };
+
     return (
         <div className="space-y-8">
-            <CourseModal course={selectedCourse} open={!!selectedCourse} onClose={() => setSelectedCourse(null)} onShowRequest={handleQuickRequest} />
+            <CourseModal course={selectedCourse} open={!!selectedCourse} onClose={() => setSelectedCourse(null)} onShowRequest={handleQuickRequest} onStartFree={handleStartFree} isOp={isOp} />
+            <AddTrainingModal open={addMode} onClose={() => setAddMode(false)} onAdd={handleAddCourse} />
 
             <section className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-6 border-b border-themed">
                 <div>
                     <h1 className="font-heading font-black text-3xl text-themed">Catalogue de Formations</h1>
-                    <p className="text-sm mt-1 text-themed-muted">Exploration du référentiel Sourcing & Partenaires</p>
+                    <p className="text-sm mt-1 text-themed-muted">Exploration et gestion du référentiel pédagogique</p>
                 </div>
                 <div className="flex gap-2">
+                    {isTech && (
+                        <button onClick={() => setAddMode(true)} className="btn-primary">
+                            <Plus size={16} /> Référencer une formation
+                        </button>
+                    )}
                     <button className="btn-ghost text-xs"><Shield size={14} /> Prestataires agréés</button>
                 </div>
             </section>
@@ -126,7 +211,7 @@ export default function Catalogue() {
                     <input
                         value={search} onChange={e => setSearch(e.target.value)}
                         className="input pl-12 h-12 text-base font-medium"
-                        placeholder="Rechercher une compétence, un titre ou un organisme..."
+                        placeholder="Rechercher une compétence, un titre..."
                     />
                 </div>
                 <div className="flex gap-2 overflow-x-auto pb-2 lg:pb-0 scrollbar-hide">
@@ -163,14 +248,14 @@ export default function Catalogue() {
                                 <div className="p-6 flex-1 space-y-4">
                                     <div className="flex justify-between items-start">
                                         <span className={clsx('badge', theme.badge)}>{theme.label}</span>
-                                        <Star size={14} className="text-amber-400 fill-amber-400 opacity-20 group-hover:opacity-100 transition-all" />
+                                        {c.isFree && <span className="badge badge-emerald py-0.5 px-2 text-[9px]">OFFERT</span>}
                                     </div>
 
-                                    <h3 className="font-heading font-black text-lg text-themed group-hover:text-tpgs-emerald transition-colors leading-tight">
+                                    <h3 className="font-bold text-lg text-themed group-hover:text-tpgs-emerald transition-colors leading-tight">
                                         {c.title}
                                     </h3>
 
-                                    <p className="text-xs text-themed-muted line-clamp-3 leading-relaxed">
+                                    <p className="text-xs text-themed-muted line-clamp-2 leading-relaxed">
                                         {c.description}
                                     </p>
 
@@ -183,15 +268,25 @@ export default function Catalogue() {
                                 <div className="p-4 bg-themed-hover/30 border-t border-themed flex items-center justify-between mt-auto">
                                     <div className="flex flex-col">
                                         <p className="text-[9px] font-bold text-themed-muted uppercase">{c.provider}</p>
-                                        <p className="text-sm font-black text-tpgs-emerald">{c.cost > 0 ? `${(c.cost / 1000).toFixed(0)}k FCFA` : 'INTERNE'}</p>
+                                        <p className="text-sm font-black text-tpgs-emerald">{c.cost > 0 ? `${(c.cost / 1000).toFixed(0)}k FCFA` : 'GRATUIT'}</p>
                                     </div>
-                                    <button
-                                        onClick={(e) => { e.stopPropagation(); handleQuickRequest(c); }}
-                                        className="p-3 rounded-xl bg-themed-card border border-themed text-themed hover:bg-tpgs-emerald hover:text-white hover:border-tpgs-emerald transition-all shadow-sm"
-                                        title="Demande rapide"
-                                    >
-                                        <Send size={16} />
-                                    </button>
+                                    {c.isFree && isOp ? (
+                                        <button
+                                            onClick={(e) => { e.stopPropagation(); handleStartFree(c); }}
+                                            className="p-3 rounded-xl bg-tpgs-emerald text-white shadow-lg hover:brightness-110 transition-all"
+                                            title="Démarrer maintenant"
+                                        >
+                                            <PlayCircle size={18} />
+                                        </button>
+                                    ) : (
+                                        <button
+                                            onClick={(e) => { e.stopPropagation(); handleQuickRequest(c); }}
+                                            className="p-3 rounded-xl bg-themed-card border border-themed text-themed hover:bg-tpgs-emerald hover:text-white hover:border-tpgs-emerald transition-all shadow-sm"
+                                            title="Demande rapide"
+                                        >
+                                            <Send size={16} />
+                                        </button>
+                                    )}
                                 </div>
                             </motion.div>
                         );
@@ -202,8 +297,8 @@ export default function Catalogue() {
             {filtered.length === 0 && (
                 <div className="card p-32 text-center animate-fade-in">
                     <BookOpen size={48} className="text-themed-muted mx-auto mb-4 opacity-10" />
-                    <h3 className="font-heading font-bold text-themed mb-2">Aucun résultat trouvé</h3>
-                    <p className="text-sm text-themed-muted">Essayez d'élargir vos filtres ou de modifier votre recherche.</p>
+                    <h3 className="font-heading font-bold text-themed mb-2">Aucun titre disponible</h3>
+                    <p className="text-sm text-themed-muted">Désolé, aucune formation ne correspond à vos critères actuels.</p>
                 </div>
             )}
         </div>

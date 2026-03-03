@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import {
     Award, Upload, CheckCircle2, ExternalLink, ShieldCheck,
-    FileText, Plus, Database, Download, AlertTriangle, X
+    FileText, Plus, Database, Download, AlertTriangle, X, Clock
 } from 'lucide-react';
 import { clsx } from 'clsx';
 import { toast } from '../store/toastStore.js';
@@ -87,7 +87,7 @@ function UploadModal({ open, onClose, onUpload }) {
                             <span>Chiffrement & Transfert...</span>
                             <span>{Math.round(progress)}%</span>
                         </div>
-                        <div className="progress-bar h-2"><div className="progress-fill" style={{ width: `${progress}%` }} /></div>
+                        <div className="progress-bar h-2"><div className="progress-fill" style={{ width: `${progress}% ` }} /></div>
                         <p className="text-[10px] text-themed-muted text-center italic">"Sécurisation du document via le coffre-fort numérique MINFI..."</p>
                     </div>
                 )}
@@ -104,7 +104,7 @@ export default function Certifications() {
 
     const handleNewCert = (data) => {
         const newCert = {
-            id: `ce${Date.now()}`,
+            id: `ce${Date.now()} `,
             title: data.title,
             date: new Date().toISOString().split('T')[0],
             provider: data.provider,
