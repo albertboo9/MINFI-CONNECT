@@ -10,6 +10,7 @@ export const ROLES = {
   TECH: "tech",
   ADMIN: "admin",
   DIRECTOR: "director",
+  PROVIDER: "provider",
 };
 
 const MOCK_USERS = {
@@ -63,9 +64,18 @@ const MOCK_USERS = {
     name: "Jean-Pierre Atangana",
     initials: "JA",
     role: ROLES.DIRECTOR,
-    department: "Secrétariat Général",
+    department: "Secrétaire Général",
     grade: "Secrétaire Général Adjoint",
     matricule: "034001-E",
+  },
+  [ROLES.PROVIDER]: {
+    id: "p1",
+    name: "Cabinet Alpha Formation",
+    initials: "CAF",
+    role: ROLES.PROVIDER,
+    department: "Organisme de Formation",
+    grade: "Prestataire Agréé",
+    matricule: "PRV-001",
   },
 };
 

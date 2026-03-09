@@ -19,6 +19,9 @@ const Team = lazy(() => import("./pages/Team.jsx"));
 const Evaluations = lazy(() => import("./pages/Evaluations.jsx"));
 const Admin = lazy(() => import("./pages/Admin.jsx"));
 const TrainingPlan = lazy(() => import("./pages/TrainingPlan.jsx"));
+const ProviderDashboard = lazy(() => import("./pages/ProviderDashboard.jsx"));
+const Validations = lazy(() => import("./pages/Validations.jsx"));
+const Providers = lazy(() => import("./pages/Providers.jsx"));
 
 export default function App() {
   const { activeRole } = useAppStore();
@@ -43,6 +46,10 @@ export default function App() {
                 <Route path="/evaluations" element={<Evaluations />} />
                 <Route path="/admin" element={<Admin />} />
                 <Route path="/training-plan" element={<TrainingPlan />} />
+                <Route path="/propose" element={<ProviderDashboard />} />
+                <Route path="/my-proposals" element={<ProviderDashboard />} />
+                <Route path="/validations" element={<Validations />} />
+                <Route path="/providers" element={<Providers />} />
                 <Route path="*" element={<Navigate to="/" replace />} />
               </Routes>
             </AppShell>
@@ -52,3 +59,4 @@ export default function App() {
     </Suspense>
   );
 }
+

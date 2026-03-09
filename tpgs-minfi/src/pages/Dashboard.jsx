@@ -108,7 +108,7 @@ export default function Dashboard() {
                         {getTimeGreeting()}, {currentUser.name.split(' ')[0]}
                     </h1>
                     <p className="text-sm mt-1" style={{ color: 'var(--text-muted)' }}>
-                        {isManager ? "Voici le récapitulatif de votre service." : isTech ? "État de santé de la plateforme TPGS." : "Votre parcours de formation aujourd'hui."}
+                        {isManager ? "Voici le récapitulatif de votre service." : isTech ? "État de santé de la plateforme TMS." : "Votre parcours de formation aujourd'hui."}
                     </p>
                 </div>
 
