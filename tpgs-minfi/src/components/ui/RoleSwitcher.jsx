@@ -8,7 +8,8 @@ const ROLE_OPTIONS = [
     { role: ROLES.OPERATOR, label: 'Opérateur', color: 'emerald' },
     { role: ROLES.MANAGER, label: 'Chef de Service', color: 'blue' },
     { role: ROLES.HRM, label: 'Service Formation DRH', color: 'gold' },
-    { role: ROLES.TECH, label: 'Service Technique', color: 'cyan' },
+    { role: ROLES.TECH, label: 'Service Technique Formation', color: 'cyan' },
+    { role: ROLES.ADMIN, label: 'Administrateur Système', color: 'red' },
     { role: ROLES.DIRECTOR, label: 'Direction / Pilotage', color: 'purple' },
 ];
 
@@ -17,6 +18,7 @@ const colorMap = {
     blue: { dot: 'bg-tpgs-blue', border: 'border-tpgs-blue/30', bg: 'bg-tpgs-blue/10 hover:bg-tpgs-blue/20' },
     gold: { dot: 'bg-tpgs-gold', border: 'border-tpgs-gold/30', bg: 'bg-tpgs-gold/10 hover:bg-tpgs-gold/20' },
     cyan: { dot: 'bg-tpgs-cyan', border: 'border-tpgs-cyan/30', bg: 'bg-tpgs-cyan/10 hover:bg-tpgs-cyan/20' },
+    red: { dot: 'bg-red-400', border: 'border-red-400/30', bg: 'bg-red-400/10 hover:bg-red-400/20' },
     purple: { dot: 'bg-tpgs-purple', border: 'border-tpgs-purple/30', bg: 'bg-tpgs-purple/10 hover:bg-tpgs-purple/20' },
 };
 

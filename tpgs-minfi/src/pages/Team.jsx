@@ -5,7 +5,7 @@ import { teamMembers, teamTrainings } from '../data/mock.js';
 import {
     TrendingUp, TrendingDown, Award, AlertTriangle, BookOpen,
     ChevronRight, X, Mail, Phone, Calendar, Clock, Target,
-    FileText, UserCheck, Zap, MoreVertical, Plus, Search, Filter
+    FileText, UserCheck, Zap, MoreVertical, Plus, Search, Filter, PlayCircle
 } from 'lucide-react';
 import { clsx } from 'clsx';
 import { toast } from '../store/toastStore.js';
