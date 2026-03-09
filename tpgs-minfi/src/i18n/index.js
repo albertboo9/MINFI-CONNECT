@@ -39,6 +39,7 @@ const fr = {
     tech: "Service Technique Formation",
     admin: "Administrateur Système",
     director: "Direction / Pilotage",
+    provider: "Prestataire",
   },
   nav: {
     myTrainings: "Mes formations",
@@ -61,6 +62,11 @@ const fr = {
     exportReports: "Rapports exportables",
     systemAdmin: "Admin Système",
     trainingPlan: "Plan de Formation",
+    validations: "Validations",
+    providers: "Prestataires",
+    proposeTraining: "Proposer une formation",
+    myProposals: "Mes propositions",
+    createTraining: "Créer une formation",
   },
   status: {
     planned: "Planifiée",
@@ -142,6 +148,7 @@ const en = {
     tech: "Technical Training Service",
     admin: "System Administrator",
     director: "Directorate / Steering",
+    provider: "Provider",
   },
   nav: {
     myTrainings: "My trainings",
@@ -164,6 +171,11 @@ const en = {
     exportReports: "Exportable reports",
     systemAdmin: "System Admin",
     trainingPlan: "Training Plan",
+    validations: "Validations",
+    providers: "Providers",
+    proposeTraining: "Propose training",
+    myProposals: "My proposals",
+    createTraining: "Create training",
   },
   status: {
     planned: "Planned",

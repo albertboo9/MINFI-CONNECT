@@ -22,6 +22,10 @@ import {
   Shield,
   TrendingUp,
   BookMarked,
+  Building2,
+  CheckSquare,
+  Send,
+  PlusCircle,
 } from "lucide-react";
 import { useAppStore, ROLES } from "../../store/index.js";
 import RoleSwitcher from "../ui/RoleSwitcher.jsx";
@@ -53,12 +57,26 @@ const NAV_MAP = {
     },
     { icon: BookOpen, labelKey: "nav.planN1", path: "/planning" },
     { icon: FileText, labelKey: "nav.trainingRequests", path: "/requests" },
+    { icon: CheckSquare, labelKey: "nav.validations", path: "/validations" },
+    { icon: Building2, labelKey: "nav.providers", path: "/providers" },
+    {
+      icon: PlusCircle,
+      labelKey: "nav.createTraining",
+      path: "/create-training",
+    },
     { icon: BarChart3, labelKey: "common.analytics", path: "/analytics" },
   ],
   [ROLES.TECH]: [
     { icon: LayoutDashboard, labelKey: "common.dashboard", path: "/" },
     { icon: Database, labelKey: "nav.sourcing", path: "/catalogue" },
     { icon: Users, labelKey: "nav.lmsEnrollments", path: "/team" },
+    { icon: CheckSquare, labelKey: "nav.validations", path: "/validations" },
+    { icon: Building2, labelKey: "nav.providers", path: "/providers" },
+    {
+      icon: PlusCircle,
+      labelKey: "nav.createTraining",
+      path: "/create-training",
+    },
     { icon: TrendingUp, labelKey: "nav.techStats", path: "/analytics" },
   ],
   [ROLES.ADMIN]: [
@@ -72,8 +90,14 @@ const NAV_MAP = {
       labelKey: "nav.trainingPlan",
       path: "/training-plan",
     },
+    { icon: Building2, labelKey: "nav.providers", path: "/providers" },
     { icon: BarChart3, labelKey: "common.analytics", path: "/analytics" },
     { icon: TrendingUp, labelKey: "nav.projections", path: "/planning" },
+  ],
+  [ROLES.PROVIDER]: [
+    { icon: LayoutDashboard, labelKey: "common.dashboard", path: "/" },
+    { icon: Send, labelKey: "nav.proposeTraining", path: "/propose" },
+    { icon: FileText, labelKey: "nav.myProposals", path: "/my-proposals" },
   ],
 };
 
@@ -84,6 +108,7 @@ const ROLE_ACCENT = {
   [ROLES.TECH]: "#06B6D4",
   [ROLES.ADMIN]: "#EF4444",
   [ROLES.DIRECTOR]: "#8B5CF6",
+  [ROLES.PROVIDER]: "#EC4899",
 };
 
 export default function AppShell({ children }) {
@@ -137,13 +162,17 @@ export default function AppShell({ children }) {
           style={{ borderColor: "var(--border)" }}
         >
           <div
-            className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0"
+            className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0 overflow-hidden"
             style={{
               backgroundColor: accent + "18",
               border: `1px solid ${accent}30`,
             }}
           >
-            <Shield size={15} style={{ color: accent }} />
+            <img
+              src="/MINFI_LOGO.png"
+              alt="MINFI"
+              className="w-full h-full object-contain"
+            />
           </div>
           <AnimatePresence>
             {sidebarOpen && (
