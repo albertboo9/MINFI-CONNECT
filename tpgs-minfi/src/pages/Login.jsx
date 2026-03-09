@@ -46,7 +46,7 @@ export default function Login() {
                         <Shield size={24} className="text-white" />
                     </div>
                     <div>
-                        <p className="font-heading font-black text-xl text-white leading-none">TPGS · MINFI</p>
+                        <p className="font-heading font-black text-xl text-white leading-none">TMS · MINFI</p>
                         <p className="text-2xs text-tpgs-emerald font-bold tracking-widest uppercase mt-0.5">
                             {isFr ? 'Ministère des Finances — Cameroun' : 'Ministry of Finance — Cameroon'}
                         </p>
@@ -103,7 +103,7 @@ export default function Login() {
                 <div className="flex items-center justify-between px-8 py-4 border-b border-tpgs-border">
                     <div className="lg:hidden flex items-center gap-2">
                         <Shield size={18} className="text-tpgs-emerald" />
-                        <span className="font-heading font-black text-sm text-white">TPGS MINFI</span>
+                        <span className="font-heading font-black text-sm text-white">TMS MINFI</span>
                     </div>
                     <div className="ml-auto flex items-center gap-2">
                         <button onClick={() => setLang(lang === 'fr' ? 'en' : 'fr')}
