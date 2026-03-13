@@ -33,6 +33,8 @@ import {
 import { clsx } from "clsx";
 import { useAppStore, ROLES } from "../store/index.js";
 import Modal from "../components/ui/Modal.jsx";
+import ReportModal from "../components/ui/ReportModal.jsx";
+import PauseModal from "../components/ui/PauseModal.jsx";
 import { toast } from "../store/toastStore.js";
 import { useSound } from "../hooks/useSound.js";
 
@@ -564,6 +566,10 @@ export default function Trainings() {
   const [filter, setFilter] = useState("all");
   const [selectedTraining, setSelectedTraining] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
+  const [reportModalOpen, setReportModalOpen] = useState(false);
+  const [pauseModalOpen, setPauseModalOpen] = useState(false);
+  const [reportTrainingId, setReportTrainingId] = useState(null);
+  const [pauseTrainingId, setPauseTrainingId] = useState(null);
 
   // Filtrer les formations selon le contexte
   const myEnrolledTrainings = useMemo(() => {
@@ -644,12 +650,12 @@ export default function Trainings() {
         });
         break;
       case "report":
-        // TODO: Ouvrir modale de rapport
-        toast.info("Formulaire de rapport");
+        setReportTrainingId(trainingId);
+        setReportModalOpen(true);
         break;
       case "pause":
-        // TODO: Ouvrir modale de pause
-        toast.info("Demande de pause");
+        setPauseTrainingId(trainingId);
+        setPauseModalOpen(true);
         break;
       case "resume":
         resumeTraining(trainingId);
@@ -763,6 +769,62 @@ export default function Trainings() {
         </div>
       )}
 
+      {/* Statistiques superviseur/équipe */}
+      {tab === "team" && (isManager || isTech) && (
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
+          <div className="card p-3 text-center border-l-4 border-l-emerald-500">
+            <p className="text-xl font-black text-emerald-500">
+              {
+                teamEnrolledTrainings.filter(
+                  (t) => t.status === TRAINING_STATUS.IN_PROGRESS,
+                ).length
+              }
+            </p>
+            <p className="text-[9px] text-themed-muted uppercase">En cours</p>
+          </div>
+          <div className="card p-3 text-center border-l-4 border-l-amber-500">
+            <p className="text-xl font-black text-amber-500">
+              {
+                teamEnrolledTrainings.filter(
+                  (t) => t.status === TRAINING_STATUS.ON_PAUSE,
+                ).length
+              }
+            </p>
+            <p className="text-[9px] text-themed-muted uppercase">En pause</p>
+          </div>
+          <div className="card p-3 text-center border-l-4 border-l-red-500">
+            <p className="text-xl font-black text-red-500">
+              {
+                teamEnrolledTrainings.filter(
+                  (t) => t.status === TRAINING_STATUS.DELAYED,
+                ).length
+              }
+            </p>
+            <p className="text-[9px] text-themed-muted uppercase">En retard</p>
+          </div>
+          <div className="card p-3 text-center border-l-4 border-l-purple-500">
+            <p className="text-xl font-black text-purple-500">
+              {
+                teamEnrolledTrainings.filter(
+                  (t) => t.status === TRAINING_STATUS.COMPLETED,
+                ).length
+              }
+            </p>
+            <p className="text-[9px] text-themed-muted uppercase">À valider</p>
+          </div>
+          <div className="card p-3 text-center border-l-4 border-l-blue-500">
+            <p className="text-xl font-black text-blue-500">
+              {
+                teamEnrolledTrainings.filter(
+                  (t) => t.status === TRAINING_STATUS.VALIDATED,
+                ).length
+              }
+            </p>
+            <p className="text-[9px] text-themed-muted uppercase">Validées</p>
+          </div>
+        </div>
+      )}
+
       {/* Filtres */}
       <div className="flex flex-wrap gap-2">
         {FILTER_STATUSES.map((s) => (
@@ -833,6 +895,44 @@ export default function Trainings() {
           />
         )}
       </AnimatePresence>
+
+      {/* Modale de rapport de suivi */}
+      <ReportModal
+        open={reportModalOpen}
+        onClose={() => {
+          setReportModalOpen(false);
+          setReportTrainingId(null);
+        }}
+        training={enrolledTrainings.find((t) => t.id === reportTrainingId)}
+        onSubmit={(reportData) => {
+          if (reportTrainingId) {
+            submitReport(reportTrainingId, reportData);
+            playSuccess();
+            toast.success("Rapport soumis !", {
+              title: "Votre rapport de suivi a été enregistré",
+            });
+          }
+        }}
+      />
+
+      {/* Modale de demande de pause */}
+      <PauseModal
+        open={pauseModalOpen}
+        onClose={() => {
+          setPauseModalOpen(false);
+          setPauseTrainingId(null);
+        }}
+        training={enrolledTrainings.find((t) => t.id === pauseTrainingId)}
+        onSubmit={(pauseData) => {
+          if (pauseTrainingId) {
+            requestPause(pauseTrainingId, pauseData);
+            playSuccess();
+            toast.success("Demande de pause soumise !", {
+              title: "En attente d'approbation",
+            });
+          }
+        }}
+      />
     </div>
   );
 }

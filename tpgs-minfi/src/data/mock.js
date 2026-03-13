@@ -479,8 +479,8 @@ export const enrolledTrainings = [
     employeeId: "m1",
     employeeName: "Armand Mballa",
     courseId: "c1",
-    title: "Fiscalité des Entreprises Pétrolières",
-    provider: "ENAM / MINFI",
+    title: "DIRECTION GÉNÉRALE DU BUDGET DU MINFI ",
+    provider: "Studies Learning",
 
     // Statut du workflow
     status: TRAINING_STATUS.IN_PROGRESS,
