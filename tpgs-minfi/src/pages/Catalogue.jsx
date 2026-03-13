@@ -340,6 +340,14 @@ function CourseModal({
       size="lg"
       footer={
         <>
+          <a
+            href={course.link || "https://campus.studieslearning.com"}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-ghost flex items-center gap-2 border border-tpgs-emerald text-tpgs-emerald hover:bg-tpgs-emerald hover:text-white"
+          >
+            <ExternalLink size={15} /> Accéder au Campus
+          </a>
           <button onClick={onClose} className="btn-ghost">
             Fermer
           </button>
@@ -680,6 +688,16 @@ export default function Catalogue() {
                     </p>
                   </div>
                   <div className="flex gap-2">
+                    <a
+                      href={c.link || "https://campus.studieslearning.com"}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={(e) => e.stopPropagation()}
+                      className="p-3 rounded-xl bg-themed-card border border-themed text-themed-muted hover:text-tpgs-emerald hover:border-tpgs-emerald transition-all shadow-sm"
+                      title="Accéder au Campus"
+                    >
+                      <ExternalLink size={16} />
+                    </a>
                     <button className="p-3 rounded-xl bg-themed-card border border-themed text-themed-muted hover:text-themed transition-all shadow-sm">
                       <Share2 size={16} />
                     </button>
