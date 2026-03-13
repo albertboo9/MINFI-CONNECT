@@ -24,7 +24,6 @@ const Validations = lazy(() => import("./pages/Validations.jsx"));
 const Providers = lazy(() => import("./pages/Providers.jsx"));
 
 export default function App() {
-  const { activeRole } = useAppStore();
 
   return (
     <Suspense fallback={<LoadingScreen />}>

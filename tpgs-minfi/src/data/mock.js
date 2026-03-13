@@ -163,6 +163,20 @@ export const SYSTEM_LOGS = [
 
 export const catalogue = [
   {
+    id: "c15",
+    title: "DIRECTION GÉNÉRALE DU BUDGET DU MINFI",
+    provider: "Studies Learning",
+    hours: "40h",
+    category: "job",
+    level: "Tous niveaux",
+    isFree: true,
+    cost: 0,
+    duration: "5 jours",
+    link: "https://campus.studieslearning.com/course/view.php?id=1527",
+    description:
+      "BIENVENUE ! Rejoignez notre formation exclusive sur le plan d'engagement, conçue particulièrement pour les professionnels de l'administration publique camerounaise et des organismes parapublics. Cette formation de référence vous permettra de maîtriser l'art de l'engagement budgétaire et d'améliorer significativement la performance de votre organisation. À travers des modules interactifs et des cas pratiques tirés du contexte ministeriel, vous développerez les compétences essentielles pour une gestion optimale des ressources financières de l'État. Cette formation est délivrée par Studies Learning en partenariat avec la Direction Générale du Budget du MINFI et constitue un élément clé du programme de renforcement des capacités des agents du Ministère des Finances.",
+  },
+  {
     id: "c1",
     title: "Fiscalité des Entreprises Pétrolières",
     provider: "ENAM / MINFI",
@@ -172,6 +186,7 @@ export const catalogue = [
     isFree: false,
     cost: 250000,
     duration: "10 jours",
+    link: "https://campus.studieslearning.com",
     description:
       "Maîtrise des régimes fiscaux spécifiques aux industries extractives et calcul des redevances.",
   },
@@ -185,6 +200,7 @@ export const catalogue = [
     isFree: true,
     cost: 0,
     duration: "5 jours",
+    link: "https://campus.studieslearning.com",
     description:
       "Analyse de la viabilité de la dette et stratégies de désendettement à moyen terme.",
   },
@@ -198,6 +214,7 @@ export const catalogue = [
     isFree: false,
     cost: 125000,
     duration: "3 jours",
+    link: "https://campus.studieslearning.com",
     description:
       "Contrôle de la gestion financière des communes et régions dans le cadre de la décentralisation.",
   },
@@ -211,6 +228,7 @@ export const catalogue = [
     isFree: true,
     cost: 0,
     duration: "4 jours",
+    link: "https://campus.studieslearning.com",
     description:
       "Application des nouvelles directives liées au Budget-Programme et à la gestion axée sur les résultats.",
   },
@@ -224,6 +242,7 @@ export const catalogue = [
     isFree: true,
     cost: 0,
     duration: "2 jours",
+    link: "https://campus.studieslearning.com",
     description:
       "Bonnes pratiques de sécurité informatique pour la protection des données sensibles de l'État.",
   },
@@ -237,6 +256,7 @@ export const catalogue = [
     isFree: false,
     cost: 185000,
     duration: "5 jours",
+    link: "https://campus.studieslearning.com",
     description:
       "Détection des flux financiers illicites et coopération internationale en matière de lutte contre le terrorisme.",
   },
@@ -250,6 +270,7 @@ export const catalogue = [
     isFree: false,
     cost: 95000,
     duration: "8 jours",
+    link: "https://campus.studieslearning.com",
     description:
       "Étude du nouveau code des marchés publics et des procédures de gré à gré vs appels d'offres.",
   },
@@ -263,6 +284,7 @@ export const catalogue = [
     isFree: true,
     cost: 0,
     duration: "3 jours",
+    link: "https://campus.studieslearning.com",
     description:
       "Gestion des actifs fixes de l'État et inventaire permanent des biens meubles et immeubles.",
   },
@@ -276,6 +298,7 @@ export const catalogue = [
     isFree: false,
     cost: 450000,
     duration: "4 jours",
+    link: "https://campus.studieslearning.com",
     description:
       "Implémentation du Balanced Scorecard pour le pilotage des performances des directions centrales.",
   },
@@ -289,6 +312,7 @@ export const catalogue = [
     isFree: true,
     cost: 0,
     duration: "5 jours",
+    link: "https://campus.studieslearning.com",
     description:
       "Formation pratique sur le nouveau système d'information douanier du Cameroun.",
   },
@@ -302,6 +326,7 @@ export const catalogue = [
     isFree: true,
     cost: 0,
     duration: "1 jour",
+    link: "https://campus.studieslearning.com",
     description:
       "Sensibilisation sur l'intégrité des agents publics et les sanctions liées à la corruption.",
   },
@@ -315,6 +340,7 @@ export const catalogue = [
     isFree: false,
     cost: 75000,
     duration: "6 semaines",
+    link: "https://campus.studieslearning.com",
     description:
       "Capacité à négocier et rédiger des rapports financiers en milieu anglophone.",
   },
@@ -328,6 +354,7 @@ export const catalogue = [
     isFree: false,
     cost: 110000,
     duration: "1 semaine",
+    link: "https://campus.studieslearning.com",
     description:
       "Étude des transactions économiques entre les résidents et le reste du monde.",
   },
@@ -341,6 +368,7 @@ export const catalogue = [
     isFree: false,
     cost: 220000,
     duration: "3 jours",
+    link: "https://campus.studieslearning.com",
     description:
       "Méthodologie COSO pour l'évaluation des risques financiers et la mise en place de barrières de contrôle.",
   },
