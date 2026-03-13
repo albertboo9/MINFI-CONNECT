@@ -702,15 +702,14 @@ export default function Catalogue() {
                       <Share2 size={16} />
                     </button>
                     {c.isFree && isOp ? (
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleStartFree(c);
-                        }}
+                      <a
+                        href={c.link || "https://campus.studieslearning.com"}
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="px-5 py-3 rounded-xl bg-tpgs-emerald text-white shadow-xl hover:brightness-110 active:scale-95 transition-all flex items-center gap-2 font-black text-xs"
                       >
-                        <PlayCircle size={18} /> GO
-                      </button>
+                        <ExternalLink size={18} /> ACCÉDER
+                      </a>
                     ) : (
                       <button
                         onClick={(e) => {
