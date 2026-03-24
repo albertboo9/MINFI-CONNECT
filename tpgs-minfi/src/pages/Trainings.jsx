@@ -238,8 +238,17 @@ function TrainingDetailModal({
             </button>
           )}
 
-          {isOperator && training.status === TRAINING_STATUS.IN_PROGRESS && (
+          {isOperator && training.status === TRAINING_STATUS.IN_PROGRESS && training.link && (
             <>
+              <a
+                href={training.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-2 px-4 py-3 bg-emerald-500 hover:bg-emerald-600 text-white font-bold rounded-xl transition-all w-full sm:w-auto"
+              >
+                <ExternalLink size={18} />
+                Accéder au campus
+              </a>
               <button
                 onClick={() => {
                   onAction("report", training.id);
@@ -274,45 +283,71 @@ function TrainingDetailModal({
             </>
           )}
 
-          {isOperator && training.status === TRAINING_STATUS.ON_PAUSE && (
-            <button
-              onClick={() => {
-                onAction("resume", training.id);
-                onClose();
-              }}
-              className="btn-approve"
+          {isOperator && training.status === TRAINING_STATUS.ON_PAUSE && training.link && (
+            <a
+              href={training.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center gap-2 px-4 py-3 bg-emerald-500 hover:bg-emerald-600 text-white font-bold rounded-xl transition-all w-full sm:w-auto"
             >
-              <PlayCircle size={16} /> Reprendre la formation
-            </button>
+              <ExternalLink size={18} />
+              Reprendre la formation
+            </a>
           )}
 
-          {isOperator &&
-            training.status === TRAINING_STATUS.COMPLETED &&
-            !training.certificate && (
-              <button
-                onClick={() => {
-                  onAction("certificate", training.id);
-                  onClose();
-                }}
-                className="btn-primary"
-              >
-                <GraduationCap size={16} /> Déposer mon certificat
-              </button>
-            )}
+          {isOperator && training.status === TRAINING_STATUS.COMPLETED && (
+            <>
+              {training.link && (
+                <a
+                  href={training.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-2 px-4 py-3 bg-emerald-500 hover:bg-emerald-600 text-white font-bold rounded-xl transition-all w-full sm:w-auto"
+                >
+                  <ExternalLink size={18} />
+                  Revoir la formation
+                </a>
+              )}
+              {!training.certificate && (
+                <button
+                  onClick={() => {
+                    onAction("certificate", training.id);
+                    onClose();
+                  }}
+                  className="btn-primary"
+                >
+                  <GraduationCap size={16} /> Déposer mon certificat
+                </button>
+              )}
+            </>
+          )}
 
-          {isOperator &&
-            training.status === TRAINING_STATUS.VALIDATED &&
-            !training.evaluation && (
-              <button
-                onClick={() => {
-                  onAction("evaluate", training.id);
-                  onClose();
-                }}
-                className="btn-primary"
-              >
-                <BarChart3 size={16} /> Évaluer la formation
-              </button>
-            )}
+          {isOperator && training.status === TRAINING_STATUS.VALIDATED && (
+            <>
+              {training.link && (
+                <a
+                  href={training.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-2 px-4 py-3 bg-emerald-500 hover:bg-emerald-600 text-white font-bold rounded-xl transition-all w-full sm:w-auto"
+                >
+                  <ExternalLink size={18} />
+                  Revoir la formation
+                </a>
+              )}
+              {!training.evaluation && (
+                <button
+                  onClick={() => {
+                    onAction("evaluate", training.id);
+                    onClose();
+                  }}
+                  className="btn-primary"
+                >
+                  <BarChart3 size={16} /> Évaluer la formation
+                </button>
+              )}
+            </>
+          )}
 
           {/* Actions pour le service technique */}
           {isTech && training.status === TRAINING_STATUS.COMPLETED && (
@@ -378,6 +413,27 @@ function TrainingDetailModal({
             </span>
           )}
         </div>
+
+        {/* Bouton principal: Reprendre la formation */}
+        {training.link && isOperator && (
+          (training.status === TRAINING_STATUS.IN_PROGRESS ||
+            training.status === TRAINING_STATUS.ON_PAUSE ||
+            training.status === TRAINING_STATUS.COMPLETED ||
+            training.status === TRAINING_STATUS.VALIDATED) && (
+            <a
+              href={training.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center gap-3 px-6 py-4 bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white font-bold rounded-xl transition-all shadow-lg hover:shadow-xl transform hover:scale-[1.02]"
+            >
+              <PlayCircle size={24} />
+              {training.status === TRAINING_STATUS.VALIDATED
+                ? "Revoir la formation"
+                : "Reprendre la formation"}
+              <ExternalLink size={20} className="opacity-70" />
+            </a>
+          )
+        )}
 
         {/* Progression et dates */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">

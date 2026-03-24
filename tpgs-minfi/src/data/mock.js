@@ -478,9 +478,12 @@ export const enrolledTrainings = [
     // Relations
     employeeId: "m1",
     employeeName: "Armand Mballa",
-    courseId: "c1",
-    title: "DIRECTION GÉNÉRALE DU BUDGET DU MINFI ",
+    courseId: "c15",
+    title: "DIRECTION GÉNÉRALE DU BUDGET DU MINFI",
     provider: "Studies Learning",
+
+    // Lien vers le campus e-learning
+    link: "https://campus.studieslearning.com/course/view.php?id=1527",
 
     // Statut du workflow
     status: TRAINING_STATUS.IN_PROGRESS,
@@ -608,6 +611,7 @@ export const enrolledTrainings = [
     courseId: "c2",
     title: "Gestion de la Dette Publique",
     provider: "FMI Academy",
+    link: "https://campus.studieslearning.com",
     status: TRAINING_STATUS.ON_PAUSE,
     registrationDate: "2026-01-10",
     startDate: "2026-01-15",
@@ -691,6 +695,7 @@ export const enrolledTrainings = [
     courseId: "c3",
     title: "Audit des Collectivités Territoriales",
     provider: "MINDEL / Cabinet PwC",
+    link: "https://campus.studieslearning.com",
     status: TRAINING_STATUS.DELAYED,
     registrationDate: "2026-01-05",
     startDate: "2026-01-10",
@@ -744,8 +749,9 @@ export const enrolledTrainings = [
     employeeId: "m3",
     employeeName: "Jean-Luc Balla",
     courseId: "c4",
-    title: "Réforme Budgétaire (GARRA)",
+    title: "Réforme Budgétique (GARRA)",
     provider: "Direction Générale du Budget",
+    link: "https://campus.studieslearning.com",
     status: TRAINING_STATUS.COMPLETED,
     registrationDate: "2026-01-02",
     startDate: "2026-01-05",
@@ -810,6 +816,7 @@ export const enrolledTrainings = [
     courseId: "c5",
     title: "Cyber-vigilance Administrative",
     provider: "ANTIC",
+    link: "https://campus.studieslearning.com",
     status: TRAINING_STATUS.VALIDATED,
     registrationDate: "2025-12-15",
     startDate: "2025-12-20",
