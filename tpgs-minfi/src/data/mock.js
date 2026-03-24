@@ -5,6 +5,77 @@
  * Consolidated for V0+ Role-based Workflows & Admin Back-office
  */
 
+// ============================================
+// CONSTANTES - STATUTS DE FORMATION
+// ============================================
+// Domaine E: Exécution & Suivi des formations
+
+export const TRAINING_STATUS = {
+  PLANNED: "planifiee", // Planifiée - Inscrite dans le plan
+  REGISTERED: "inscrite", // Inscrite - Confirmée par le service technique
+  IN_PROGRESS: "enCours", // En cours - Formation démarrée
+  ON_PAUSE: "enPause", // En pause - Suspension temporaire
+  DELAYED: "enRetard", // En retard - Progression insuffisante
+  COMPLETED: "terminee", // Terminée (déclarée) - Apprenant a déclaré la fin
+  VALIDATED: "validee", // Validée - Approuvée par le service technique
+  REJECTED: "rejetee", // Rejetée - Documents non conformes
+};
+
+export const TRAINING_STATUS_CONFIG = {
+  [TRAINING_STATUS.PLANNED]: {
+    label: "Planifiée",
+    badge: "badge-slate",
+    color: "#64748B",
+    description: "Formation enregistrée dans le plan de formation",
+  },
+  [TRAINING_STATUS.REGISTERED]: {
+    label: "Inscrite",
+    badge: "badge-blue",
+    color: "#3B82F6",
+    description: "Inscription confirmée par le service technique",
+  },
+  [TRAINING_STATUS.IN_PROGRESS]: {
+    label: "En cours",
+    badge: "badge-emerald",
+    color: "#10B981",
+    description: "Formation en cours de suivi",
+  },
+  [TRAINING_STATUS.ON_PAUSE]: {
+    label: "En pause",
+    badge: "badge-gold",
+    color: "#F59E0B",
+    description: "Formation temporairement suspendue",
+  },
+  [TRAINING_STATUS.DELAYED]: {
+    label: "En retard",
+    badge: "badge-red",
+    color: "#EF4444",
+    description: "Progression insuffisante - Action requise",
+  },
+  [TRAINING_STATUS.COMPLETED]: {
+    label: "Terminée",
+    badge: "badge-purple",
+    color: "#8B5CF6",
+    description: "Formation déclarée terminée - En attente de validation",
+  },
+  [TRAINING_STATUS.VALIDATED]: {
+    label: "Validée",
+    badge: "badge-emerald",
+    color: "#059669",
+    description: "Formation validée - Certificat émis",
+  },
+  [TRAINING_STATUS.REJECTED]: {
+    label: "Rejetée",
+    badge: "badge-red",
+    color: "#DC2626",
+    description: "Documents non conformes - Correction requise",
+  },
+};
+
+// ============================================
+// DONNÉES ÉQUIPE
+// ============================================
+
 export const teamMembers = [
   {
     id: "m1",
@@ -374,6 +445,11 @@ export const catalogue = [
   },
 ];
 
+// ============================================
+// FORMATIONS SUIVIES (Domaine E: Suivi des formations)
+// ============================================
+// Structure complète pour le suivi des formations
+
 export const myTrainings = [
   {
     id: "mt1",
@@ -392,6 +468,484 @@ export const myTrainings = [
     modality: "blended",
   },
 ];
+
+// Nouveau: Formations suivies avec structure complète
+export const enrolledTrainings = [
+  {
+    // Identifiant unique
+    id: "en1",
+
+    // Relations
+    employeeId: "m1",
+    employeeName: "Armand Mballa",
+    courseId: "c15",
+    title: "DIRECTION GÉNÉRALE DU BUDGET DU MINFI",
+    provider: "Studies Learning",
+
+    // Lien vers le campus e-learning
+    link: "https://campus.studieslearning.com/course/view.php?id=1527",
+
+    // Statut du workflow
+    status: TRAINING_STATUS.IN_PROGRESS,
+
+    // Dates
+    registrationDate: "2026-01-15",
+    startDate: "2026-01-20",
+    expectedEndDate: "2026-02-15",
+    actualEndDate: null,
+
+    // Progression
+    progress: 65,
+    modulesCompleted: 6,
+    totalModules: 10,
+    weeklyReportFrequency: "hebdomadaire",
+    lastReportDate: "2026-03-10",
+    nextReportDate: "2026-03-17",
+
+    // Rapports de suivi
+    reports: [
+      {
+        id: "rpt1",
+        date: "2026-01-27",
+        modulesStudied: [
+          "Module 1: Introduction à la fiscalité pétrolière",
+          "Module 2: Régime fiscal de recherche",
+        ],
+        timeSpent: 8,
+        difficulties: "Difficulté à comprendre le mécanisme des redevances",
+        comments: "Formation très enrichissante, le formateur est compétent",
+        progress: 20,
+      },
+      {
+        id: "rpt2",
+        date: "2026-02-03",
+        modulesStudied: [
+          "Module 3: Calcul des redevances",
+          "Module 4: Conventions fiscales",
+        ],
+        timeSpent: 10,
+        difficulties: "Calculs complexes",
+        comments: "Meilleure compréhension des conventions",
+        progress: 40,
+      },
+      {
+        id: "rpt3",
+        date: "2026-02-10",
+        modulesStudied: [
+          "Module 5: Fiscalité locale",
+          "Module 6: Optimisation fiscale",
+        ],
+        timeSpent: 12,
+        difficulties: "Aucune",
+        comments: "Progression normale",
+        progress: 60,
+      },
+      {
+        id: "rpt4",
+        date: "2026-03-10",
+        modulesStudied: ["Module 7: Contrôle fiscal", "Module 8: Contentieux"],
+        timeSpent: 6,
+        difficulties: "Manque de temps cette semaine",
+        comments: "Semaine chargée au bureau",
+        progress: 65,
+      },
+    ],
+
+    // Pauses
+    pauses: [],
+
+    // Émargement (pour formations présentielles/blended)
+    attendances: [],
+
+    // Documents
+    certificate: null,
+    attestation: null,
+
+    // Évaluation post-formation
+    evaluation: null,
+
+    // Audit trail
+    history: [
+      {
+        date: "2026-01-15",
+        action: "INSCRIPTION",
+        user: "Service Formation",
+        details: "Collaborateur inscrit à la formation",
+      },
+      {
+        date: "2026-01-20",
+        action: "DÉMARRAGE",
+        user: "Armand Mballa",
+        details: "Confirmation du démarrage de la formation",
+      },
+      {
+        date: "2026-01-27",
+        action: "RAPPORT",
+        user: "Armand Mballa",
+        details: "Rapport hebdomadaire soumis - 20%",
+      },
+      {
+        date: "2026-02-03",
+        action: "RAPPORT",
+        user: "Armand Mballa",
+        details: "Rapport hebdomadaire soumis - 40%",
+      },
+      {
+        date: "2026-02-10",
+        action: "RAPPORT",
+        user: "Armand Mballa",
+        details: "Rapport hebdomadaire soumis - 60%",
+      },
+      {
+        date: "2026-03-10",
+        action: "RAPPORT",
+        user: "Armand Mballa",
+        details: "Rapport hebdomadaire soumis - 65%",
+      },
+    ],
+  },
+  {
+    id: "en2",
+    employeeId: "m1",
+    employeeName: "Armand Mballa",
+    courseId: "c2",
+    title: "Gestion de la Dette Publique",
+    provider: "FMI Academy",
+    link: "https://campus.studieslearning.com",
+    status: TRAINING_STATUS.ON_PAUSE,
+    registrationDate: "2026-01-10",
+    startDate: "2026-01-15",
+    expectedEndDate: "2026-02-15",
+    actualEndDate: null,
+    progress: 35,
+    modulesCompleted: 3,
+    totalModules: 8,
+    weeklyReportFrequency: "hebdomadaire",
+    lastReportDate: "2026-02-15",
+    nextReportDate: null,
+    reports: [
+      {
+        id: "rpt5",
+        date: "2026-01-22",
+        modulesStudied: ["Module 1"],
+        timeSpent: 5,
+        difficulties: "",
+        comments: "",
+        progress: 12,
+      },
+      {
+        id: "rpt6",
+        date: "2026-01-29",
+        modulesStudied: ["Module 2"],
+        timeSpent: 6,
+        difficulties: "",
+        comments: "",
+        progress: 25,
+      },
+      {
+        id: "rpt7",
+        date: "2026-02-15",
+        modulesStudied: ["Module 3"],
+        timeSpent: 4,
+        difficulties: "Congé maladie",
+        comments: "",
+        progress: 35,
+      },
+    ],
+    pauses: [
+      {
+        id: "ps1",
+        startDate: "2026-02-16",
+        endDate: "2026-02-28",
+        reason: "Congé maladie - Arrêt de travail",
+        approved: true,
+        approvedBy: "Service Formation",
+        approvedDate: "2026-02-16",
+      },
+    ],
+    attendances: [],
+    certificate: null,
+    attestation: null,
+    evaluation: null,
+    history: [
+      {
+        date: "2026-01-10",
+        action: "INSCRIPTION",
+        user: "Service Formation",
+        details: "Collaborateur inscrit",
+      },
+      {
+        date: "2026-01-15",
+        action: "DÉMARRAGE",
+        user: "Armand Mballa",
+        details: "Formation démarrée",
+      },
+      {
+        date: "2026-02-16",
+        action: "PAUSE",
+        user: "Armand Mballa",
+        details: "Demande de pause - Congé maladie",
+      },
+    ],
+  },
+  {
+    id: "en3",
+    employeeId: "m2",
+    employeeName: "Cécile Atangana",
+    courseId: "c3",
+    title: "Audit des Collectivités Territoriales",
+    provider: "MINDEL / Cabinet PwC",
+    link: "https://campus.studieslearning.com",
+    status: TRAINING_STATUS.DELAYED,
+    registrationDate: "2026-01-05",
+    startDate: "2026-01-10",
+    expectedEndDate: "2026-02-10",
+    actualEndDate: null,
+    progress: 15,
+    modulesCompleted: 1,
+    totalModules: 6,
+    weeklyReportFrequency: "hebdomadaire",
+    lastReportDate: "2026-01-20",
+    nextReportDate: "2026-03-17",
+    reports: [
+      {
+        id: "rpt8",
+        date: "2026-01-20",
+        modulesStudied: ["Module 1"],
+        timeSpent: 3,
+        difficulties: "",
+        comments: "",
+        progress: 15,
+      },
+    ],
+    pauses: [],
+    attendances: [],
+    certificate: null,
+    attestation: null,
+    evaluation: null,
+    history: [
+      {
+        date: "2026-01-05",
+        action: "INSCRIPTION",
+        user: "Service Formation",
+        details: "Collaborateur inscrit",
+      },
+      {
+        date: "2026-01-10",
+        action: "DÉMARRAGE",
+        user: "Cécile Atangana",
+        details: "Formation démarrée",
+      },
+      {
+        date: "2026-02-10",
+        action: "ALERTE",
+        user: "Système",
+        details: "Progression insuffisante - En retard",
+      },
+    ],
+  },
+  {
+    id: "en4",
+    employeeId: "m3",
+    employeeName: "Jean-Luc Balla",
+    courseId: "c4",
+    title: "Réforme Budgétique (GARRA)",
+    provider: "Direction Générale du Budget",
+    link: "https://campus.studieslearning.com",
+    status: TRAINING_STATUS.COMPLETED,
+    registrationDate: "2026-01-02",
+    startDate: "2026-01-05",
+    expectedEndDate: "2026-01-25",
+    actualEndDate: "2026-01-24",
+    progress: 100,
+    modulesCompleted: 8,
+    totalModules: 8,
+    weeklyReportFrequency: "hebdomadaire",
+    lastReportDate: "2026-01-20",
+    nextReportDate: null,
+    reports: [
+      {
+        id: "rpt9",
+        date: "2026-01-12",
+        modulesStudied: ["Module 1-4"],
+        timeSpent: 12,
+        difficulties: "",
+        comments: "",
+        progress: 50,
+      },
+      {
+        id: "rpt10",
+        date: "2026-01-20",
+        modulesStudied: ["Module 5-8"],
+        timeSpent: 15,
+        difficulties: "",
+        comments: "",
+        progress: 100,
+      },
+    ],
+    pauses: [],
+    attendances: [],
+    certificate: null,
+    attestation: null,
+    evaluation: null,
+    history: [
+      {
+        date: "2026-01-02",
+        action: "INSCRIPTION",
+        user: "Service Formation",
+        details: "Collaborateur inscrit",
+      },
+      {
+        date: "2026-01-05",
+        action: "DÉMARRAGE",
+        user: "Jean-Luc Balla",
+        details: "Formation démarrée",
+      },
+      {
+        date: "2026-01-24",
+        action: "TERMINAISON",
+        user: "Jean-Luc Balla",
+        details: "Formation déclarée terminée",
+      },
+    ],
+  },
+  {
+    id: "en5",
+    employeeId: "m4",
+    employeeName: "Sophie Nkoa",
+    courseId: "c5",
+    title: "Cyber-vigilance Administrative",
+    provider: "ANTIC",
+    link: "https://campus.studieslearning.com",
+    status: TRAINING_STATUS.VALIDATED,
+    registrationDate: "2025-12-15",
+    startDate: "2025-12-20",
+    expectedEndDate: "2026-01-10",
+    actualEndDate: "2026-01-08",
+    progress: 100,
+    modulesCompleted: 5,
+    totalModules: 5,
+    weeklyReportFrequency: "hebdomadaire",
+    lastReportDate: "2026-01-05",
+    nextReportDate: null,
+    reports: [
+      {
+        id: "rpt11",
+        date: "2025-12-27",
+        modulesStudied: ["Module 1-3"],
+        timeSpent: 8,
+        difficulties: "",
+        comments: "",
+        progress: 60,
+      },
+      {
+        id: "rpt12",
+        date: "2026-01-05",
+        modulesStudied: ["Module 4-5"],
+        timeSpent: 6,
+        difficulties: "",
+        comments: "",
+        progress: 100,
+      },
+    ],
+    pauses: [],
+    attendances: [],
+    certificate: {
+      url: "/certificates/cert-cyber-001.pdf",
+      uploadDate: "2026-01-10",
+      verified: true,
+      verifiedBy: "Service Formation",
+    },
+    attestation: {
+      url: "/attestations/att-cyber-001.pdf",
+      uploadDate: "2026-01-10",
+    },
+    evaluation: {
+      date: "2026-01-12",
+      contentQuality: 5,
+      trainerQuality: 4,
+      relevance: 5,
+      satisfaction: 5,
+      comments:
+        "Formation très utile pour mon poste. Le formateur était excellent.",
+    },
+    history: [
+      {
+        date: "2025-12-15",
+        action: "INSCRIPTION",
+        user: "Service Formation",
+        details: "Collaborateur inscrit",
+      },
+      {
+        date: "2025-12-20",
+        action: "DÉMARRAGE",
+        user: "Sophie Nkoa",
+        details: "Formation démarrée",
+      },
+      {
+        date: "2026-01-08",
+        action: "TERMINAISON",
+        user: "Sophie Nkoa",
+        details: "Formation déclarée terminée",
+      },
+      {
+        date: "2026-01-10",
+        action: "CERTIFICAT",
+        user: "Sophie Nkoa",
+        details: "Certificat déposé",
+      },
+      {
+        date: "2026-01-10",
+        action: "VALIDATION",
+        user: "Service Formation",
+        details: "Formation validée - Certificat vérifié",
+      },
+      {
+        date: "2026-01-12",
+        action: "ÉVALUATION",
+        user: "Sophie Nkoa",
+        details: "Évaluation qualité soumise",
+      },
+    ],
+  },
+  {
+    id: "en6",
+    employeeId: "m5",
+    employeeName: "Marc Etoga",
+    courseId: "c7",
+    title: "Passation des Marchés Publics",
+    provider: "ARMP",
+    status: TRAINING_STATUS.PLANNED,
+    registrationDate: "2026-03-01",
+    startDate: null,
+    expectedEndDate: null,
+    actualEndDate: null,
+    progress: 0,
+    modulesCompleted: 0,
+    totalModules: 8,
+    weeklyReportFrequency: "hebdomadaire",
+    lastReportDate: null,
+    nextReportDate: null,
+    reports: [],
+    pauses: [],
+    attendances: [],
+    certificate: null,
+    attestation: null,
+    evaluation: null,
+    history: [
+      {
+        date: "2026-03-01",
+        action: "INSCRIPTION",
+        user: "Service Formation",
+        details: "Collaborateur inscrit à la formation",
+      },
+    ],
+  },
+];
+
+// ============================================
+// DEMANDES DE FORMATION
+// ============================================
 
 export const myRequests = [
   {
